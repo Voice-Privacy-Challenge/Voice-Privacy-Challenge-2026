@@ -23,7 +23,7 @@ eval_steps: # all metrics in this list will be computed in the evaluation. Remov
   privacy:
     - asv
   utility:
-    #   - asr
+    - asr
     - ser
 
 privacy:
