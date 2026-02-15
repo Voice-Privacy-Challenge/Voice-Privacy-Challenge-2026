@@ -78,17 +78,18 @@ if [ ! -d $check_data ]; then
     unzip .data.zip
 fi
 
-for model in asr; do
-    if [ ! -d "exp/$model" ]; then
-        if [ ! -f .${model}.zip ]; then
-            echo "Download pretrained $model models pre-trained..."
-            wget https://github.com/Voice-Privacy-Challenge/Voice-Privacy-Challenge-2024/releases/download/pre_model.zip/${model}.zip
-            mv ${model}.zip .${model}.zip
-        fi
-        echo "Unpacking pretrained evaluation models"
-        unzip .${model}.zip
+
+model=asr
+if [ ! -d "exp/$model" ]; then
+    if [ ! -f .${model}.zip ]; then
+        echo "Download pretrained $model models pre-trained..."
+        wget -O ${model}.zip https://duke.app.box.com/shared/static/2pfagrs17mtcw2os2roc66svg9fs56j2
+        mv ${model}.zip .${model}.zip
     fi
-done
+    echo "Unpacking pretrained evaluation models"
+    unzip .${model}.zip
+fi
+
 
 model=ser
 if [ ! -d "exp/$model" ]; then
