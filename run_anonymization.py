@@ -57,6 +57,12 @@ if __name__ == '__main__':
         if "download_precomputed_intermediate_repr" in config and config["download_precomputed_intermediate_repr"]:
             shell_run('anonymization/pipelines/sttts/download_precomputed_intermediate_repr.sh')
         from anonymization.pipelines.sttts import STTTSPipeline as pipeline
+    elif config['pipeline'] == "sttts_multi":
+        shell_run('anonymization/pipelines/sttts_multi/install.sh')
+        check_dependencies('anonymization/pipelines/sttts_multi/requirements.txt')
+        if "download_precomputed_intermediate_repr" in config and config["download_precomputed_intermediate_repr"]:
+            shell_run('anonymization/pipelines/sttts_multi/download_precomputed_intermediate_repr.sh')
+        from anonymization.pipelines.sttts_multi import STTTSMultiPipeline as pipeline
     elif config['pipeline'] == "nac":
         shell_run('anonymization/pipelines/nac/install.sh')
         sys.path.append(os.path.join(os.path.dirname(__file__), 'anonymization/modules/nac/coqui_tts/'))

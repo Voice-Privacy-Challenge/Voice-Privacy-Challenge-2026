@@ -1,0 +1,178 @@
+import os
+import logging
+
+import librosa
+import pyloudnorm
+import soundfile
+import torch
+from speechbrain.pretrained import EncoderClassifier
+from torchaudio.transforms import Resample
+
+from ..Modules.ToucanTTS.InferenceToucanTTS import ToucanTTS
+from ..Modules.Vocoder.HiFiGAN_Generator import HiFiGAN
+from ..Preprocessing.AudioPreprocessor import AudioPreprocessor
+from ..Preprocessing.TextFrontend import ArticulatoryCombinedTextFrontend
+from ..Preprocessing.TextFrontend import get_language_id
+
+logger = logging.getLogger(__name__)
+
+class AnonToucanTTS(torch.nn.Module):
+
+    def __init__(self, vocoder_model_path, tts_model_path, emb_model_path, device="cpu", language="en"):
+        super().__init__()
+        self.device = device
+
+        ################################
+        #   build text to phone        #
+        ################################
+        self.text2phone = ArticulatoryCombinedTextFrontend(language=language, add_silence_to_end=True, device=device)
+
+        #####################################
+        #   load phone to features model    #
+        #####################################
+        checkpoint = torch.load(tts_model_path, map_location='cpu')
+        self.phone2mel = ToucanTTS(weights=checkpoint["model"], config=checkpoint["config"])
+        with torch.no_grad():
+            self.phone2mel.store_inverse_all()  # this also removes weight norm
+        self.phone2mel = self.phone2mel.to(torch.device(device))
+
+        ######################################
+        #  load features to style models     #
+        ######################################
+        self.speaker_embedding_func_ecapa = EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb",
+                                                                           run_opts={"device": str(device)},
+                                                                           savedir=emb_model_path)
+
+        ################################
+        #  load mel to wave model      #
+        ################################
+        vocoder_checkpoint = torch.load(vocoder_model_path, map_location="cpu")
+        self.vocoder = HiFiGAN()
+        self.vocoder.load_state_dict(vocoder_checkpoint)
+        self.vocoder = self.vocoder.to(device).eval()
+        self.vocoder.remove_weight_norm()
+        self.meter = pyloudnorm.Meter(24000)
+
+        ################################
+        #  set defaults                #
+        ################################
+        self.default_utterance_embedding = checkpoint["default_emb"].to(self.device)
+        self.ap = AudioPreprocessor(input_sr=100, output_sr=16000, device=device)
+        self.phone2mel.eval()
+        self.vocoder.eval()
+        self.lang_id = get_language_id(language)
+        self.to(torch.device(device))
+        self.eval()
+
+        self.language = language
+
+    def set_utterance_embedding(self, path_to_reference_audio="", embedding=None):
+        if embedding is not None:
+            self.default_utterance_embedding = embedding.squeeze().to(self.device)
+            return
+        if type(path_to_reference_audio) != list:
+            path_to_reference_audio = [path_to_reference_audio]
+
+        if len(path_to_reference_audio) > 0:
+            for path in path_to_reference_audio:
+                assert os.path.exists(path)
+            speaker_embs = list()
+            for path in path_to_reference_audio:
+                wave, sr = soundfile.read(path)
+                if len(wave.shape) > 1:  # oh no, we found a stereo audio!
+                    if len(wave[0]) == 2:  # let's figure out whether we need to switch the axes
+                        wave = wave.transpose()  # if yes, we switch the axes.
+                wave = librosa.to_mono(wave)
+                wave = Resample(orig_freq=sr, new_freq=16000).to(self.device)(
+                    torch.tensor(wave, device=self.device, dtype=torch.float32))
+                speaker_embedding = self.speaker_embedding_func_ecapa.encode_batch(
+                    wavs=wave.to(self.device).squeeze().unsqueeze(0)).squeeze()
+                speaker_embs.append(speaker_embedding)
+            self.default_utterance_embedding = sum(speaker_embs) / len(speaker_embs)
+
+    def set_language(self, lang_id):
+        """
+        The id parameter actually refers to the shorthand. This has become ambiguous with the introduction of the actual language IDs
+        """
+        if self.language != lang_id:
+            self.set_phonemizer_language(lang_id=lang_id)
+            self.set_accent_language(lang_id=lang_id)
+            self.language = lang_id
+
+    def set_phonemizer_language(self, lang_id):
+        self.text2phone = ArticulatoryCombinedTextFrontend(language=lang_id, add_silence_to_end=True,
+                                                           device=self.device)
+
+    def set_accent_language(self, lang_id):
+        if lang_id in {'ajp', 'ajt', 'lak', 'lno', 'nul', 'pii', 'plj', 'slq', 'smd', 'snb', 'tpw', 'wya', 'zua',
+                       'en-us', 'en-sc', 'fr-be', 'fr-sw', 'pt-br', 'spa-lat', 'vi-ctr', 'vi-so'}:
+            if lang_id == 'vi-so' or lang_id == 'vi-ctr':
+                lang_id = 'vie'
+            elif lang_id == 'spa-lat':
+                lang_id = 'spa'
+            elif lang_id == 'pt-br':
+                lang_id = 'por'
+            elif lang_id == 'fr-sw' or lang_id == 'fr-be':
+                lang_id = 'fra'
+            elif lang_id == 'en-sc' or lang_id == 'en-us':
+                lang_id = 'eng'
+            else:
+                # no clue where these others are even coming from, they are not in ISO 639-3
+                lang_id = 'eng'
+
+        self.lang_id = get_language_id(lang_id).to(self.device)
+
+    def forward(self,
+                text,
+                duration_scaling_factor=1.0,
+                pitch_variance_scale=1.0,
+                energy_variance_scale=1.0,
+                pause_duration_scaling_factor=1.0,
+                durations=None,
+                pitch=None,
+                energy=None,
+                input_is_phones=False,
+                loudness_in_db=-29.0,
+                prosody_creativity=0.1,
+                return_everything=False):
+        """
+        duration_scaling_factor: reasonable values are 0.8 < scale < 1.2.
+                                     1.0 means no scaling happens, higher values increase durations for the whole
+                                     utterance, lower values decrease durations for the whole utterance.
+        pitch_variance_scale: reasonable values are 0.6 < scale < 1.4.
+                                  1.0 means no scaling happens, higher values increase variance of the pitch curve,
+                                  lower values decrease variance of the pitch curve.
+        energy_variance_scale: reasonable values are 0.6 < scale < 1.4.
+                                   1.0 means no scaling happens, higher values increase variance of the energy curve,
+                                   lower values decrease variance of the energy curve.
+        """
+        with torch.inference_mode():
+            phones = self.text2phone.string_to_tensor(text, input_phonemes=input_is_phones).to(
+                torch.device(self.device))
+            mel, durations, pitch, energy = self.phone2mel(phones,
+                                                           return_duration_pitch_energy=True,
+                                                           utterance_embedding=self.default_utterance_embedding,
+                                                           durations=durations,
+                                                           pitch=pitch,
+                                                           energy=energy,
+                                                           lang_id=self.lang_id,
+                                                           duration_scaling_factor=duration_scaling_factor,
+                                                           pitch_variance_scale=pitch_variance_scale,
+                                                           energy_variance_scale=energy_variance_scale,
+                                                           pause_duration_scaling_factor=pause_duration_scaling_factor,
+                                                           prosody_creativity=prosody_creativity)
+
+            wave = self.vocoder(mel.unsqueeze(0))
+            wave = wave.squeeze().cpu()
+        wave = wave.numpy()
+        sr = 24000
+        try:
+            loudness = self.meter.integrated_loudness(wave)
+            wave = pyloudnorm.normalize.loudness(wave, loudness, loudness_in_db)
+        except ValueError:
+            # if the audio is too short, a value error will arise
+            pass
+
+        if return_everything:
+            return wave, mel, durations, pitch
+        return wave, sr

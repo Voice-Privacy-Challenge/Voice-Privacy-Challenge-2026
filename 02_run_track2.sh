@@ -1,5 +1,5 @@
 #!/bin/bash
-export CUDA_VISIBLE_DEVICES=7
+#export CUDA_VISIBLE_DEVICES=7
 set -e
 
 source env.sh
@@ -12,7 +12,7 @@ track=track2 #track1, track2
 if [ -n "$1" ]; then
   anon_config=$1
 else
-  # anon_config=configs/$trackanon_sttts.yaml
+  # anon_config=configs/$track/anon_sttts_multi.yaml
   # anon_config=configs/$track/anon_nac.yaml
   anon_config=configs/$track/anon_ssl.yaml
 fi
