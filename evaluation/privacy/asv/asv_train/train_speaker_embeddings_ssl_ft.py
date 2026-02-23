@@ -85,7 +85,7 @@ class WavLMFeatureExtractor:
         return audio
 
     def extract_features(
-        self, 
+        self,
         audio_names: Union[str, List[str], Tuple[str, ...]] = None,
         audio_paths: Union[str, List[str], Tuple[str, ...]] = None
     ) -> Dict[str, Union[List[torch.Tensor], List[str]]]:

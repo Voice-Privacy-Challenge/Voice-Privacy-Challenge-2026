@@ -5,7 +5,7 @@ import warnings
 import soundfile as sf
 import torch
 from numpy import trim_zeros
-from speechbrain.pretrained import EncoderClassifier
+from speechbrain.inference.speaker import EncoderClassifier
 from torch.multiprocessing import Manager
 from torch.multiprocessing import Process
 from torch.utils.data import Dataset

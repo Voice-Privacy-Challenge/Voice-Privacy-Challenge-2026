@@ -1,0 +1,60 @@
+data_dir: data
+results_dir: data
+
+pipeline: nac
+anon_suffix: !ref _<pipeline>
+
+datasets:
+  - name: ja_dev
+    data: ja_dev
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: ja_test
+    data: ja_test
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: cn_dev
+    data: cn_dev
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: cn_test
+    data: cn_test
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: en_dev
+    data: en_dev
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: en_test
+    data: en_test
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: fr_dev
+    data: fr_dev
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: fr_test
+    data: fr_test
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: es_dev
+    data: es_dev
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: es_test
+    data: es_test
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: de_dev
+    data: de_dev
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+  - name: de_test
+    data: de_test
+    enrolls: [_enrolls]
+    trials: [_trials_f, _trials_m]
+
+modules:
+  model:
+    checkpoint_dir: exp/nac_models
+    voice_dir: exp/nac_mappings/suno_voices/v2

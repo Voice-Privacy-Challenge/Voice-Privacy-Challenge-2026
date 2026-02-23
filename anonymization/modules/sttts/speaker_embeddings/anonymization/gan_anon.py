@@ -54,7 +54,7 @@ class GANAnonymizer(BaseAnonymizer):
         self.model_name = model_name if model_name else f"gan_{vec_type}"
         self.vectors_file = Path(vectors_file)
         self.unused_indices_file = self.vectors_file.with_name(
-            f"unused_indices_{self.vectors_file.name}"
+            f"unused_indices_{self.vectors_file.stem}.npy"
         )
         self.sim_threshold = sim_threshold
         self.save_intermediate = save_intermediate
@@ -63,9 +63,7 @@ class GANAnonymizer(BaseAnonymizer):
         if self.vectors_file.is_file():
             self.gan_vectors = torch.load(self.vectors_file, map_location=self.device)
             if self.unused_indices_file.is_file():
-                self.unused_indices = torch.load(
-                    self.unused_indices_file, map_location="cpu"
-                )
+                self.unused_indices = np.load(self.unused_indices_file)
             else:
                 self.unused_indices = np.arange(len(self.gan_vectors))
         else:
@@ -94,7 +92,7 @@ class GANAnonymizer(BaseAnonymizer):
         speakers = []
         anon_vectors = []
         genders = []
-        for i in tqdm(range(len(speaker_embeddings))):
+        for i in tqdm(speaker_embeddings.idx2identifiers.keys()):
             identifier, vector = speaker_embeddings[i]
             speaker = speaker_embeddings.original_speakers[i]
             gender = speaker_embeddings.genders[i]
@@ -114,7 +112,7 @@ class GANAnonymizer(BaseAnonymizer):
             genders=genders,
         )
         if self.save_intermediate:
-            torch.save(self.unused_indices, self.unused_indices_file)
+            np.save(self.unused_indices_file, self.unused_indices)
 
         return anon_embeddings
 
@@ -126,7 +124,7 @@ class GANAnonymizer(BaseAnonymizer):
 
         if self.save_intermediate:
             torch.save(gan_vectors, self.vectors_file)
-            torch.save(unused_indices, self.unused_indices_file)
+            np.save(self.unused_indices_file, unused_indices)
         return gan_vectors, unused_indices
 
     def _select_gan_vector(self, spk_vec: torch.Tensor):

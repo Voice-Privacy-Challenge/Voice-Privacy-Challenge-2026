@@ -128,7 +128,6 @@ if [ ! -d "exp/$model" ]; then
 fi
 
 
-
 # IEMOCAP_full_release
 if [ ! -d "data/IEMOCAP/wav/Session1" ]; then
     mkdir -p ./data/IEMOCAP/

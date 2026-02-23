@@ -83,7 +83,7 @@ class SpeakerEmbeddings:
         assert (in_dir / f'id2idx').exists() and (in_dir / f'speaker_vectors.pt').exists(), \
             f'speaker_vectors.pt and id2idx must exist in {in_dir}!'
 
-        idx2spk = read_kaldi_format(in_dir / 'idx2spk')
+        idx2spk = {int(idx): spk for idx, spk in read_kaldi_format(in_dir / 'idx2spk').items()}
         spk2gender = read_kaldi_format(in_dir / 'spk2gender')
         self.original_speakers = [spk for idx, spk in sorted(idx2spk.items(), key=lambda x: x[0])]
         self.genders = [spk2gender[spk] for spk in self.original_speakers]

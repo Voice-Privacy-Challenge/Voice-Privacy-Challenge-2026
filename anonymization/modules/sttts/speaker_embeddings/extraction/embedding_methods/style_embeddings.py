@@ -17,7 +17,7 @@ class StyleEmbeddings:
         self.audio_preprocessor = AudioPreprocessor(input_sr=16000, output_sr=16000, cut_silence=True,
                                                     device=self.device)
 
-    def extract_vector(self, audio, sr):
+    def extract_vector(self, audio, sr, wav_path=None):
         if sr != self.audio_preprocessor.sr:
             self.audio_preprocessor = AudioPreprocessor(input_sr=sr, output_sr=16000, cut_silence=True,
                                                         device=self.device)

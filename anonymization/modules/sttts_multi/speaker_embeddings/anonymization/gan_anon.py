@@ -92,7 +92,8 @@ class GANAnonymizer(BaseAnonymizer):
         speakers = []
         anon_vectors = []
         genders = []
-        for i in tqdm(range(len(speaker_embeddings))):
+        #for i in tqdm(range(len(speaker_embeddings))):
+        for i in tqdm(speaker_embeddings.idx2identifiers.keys()):
             identifier, vector = speaker_embeddings[i]
             speaker = speaker_embeddings.original_speakers[i]
             gender = speaker_embeddings.genders[i]
