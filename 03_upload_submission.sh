@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Usage: VPC_DROPBOX_KEY=XXX VPC_DROPBOX_SECRET=YYY VPC_DROPBOX_REFRESHTOKEN=ZZZ VPC_TEAM=TEAM_NAME ./03_upload_submission.sh $anon_data_suffix
+# For track2: VPC_TRACK=track2 ./03_upload_submission.sh $anon_data_suffix
 
 # Fresh install with "rm .done-upload-tool"
 
@@ -64,7 +65,9 @@ echo " -- Anon suffix used to upload the submission: '${anon_suffix}' --"
 
 stuff_to_zip=""
 
-results_exp=exp/results_summary
+# Results are in exp/results_summary/<track>; default track1 for backward compat
+track=${VPC_TRACK:-track1}
+results_exp=exp/results_summary/$track
 file=${results_exp}/result_for_rank${anon_suffix}
 [ ! -f $file ] && echo "File $file does not exist." && exit 1
 file=${results_exp}/result_for_submission${anon_suffix}.zip

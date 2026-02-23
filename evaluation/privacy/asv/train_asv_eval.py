@@ -53,7 +53,9 @@ def asv_train_speechbrain(train_params, output_dir):
 
     config = train_params['train_config']
 
-    if train_params['num_spk'] == 'ALL':
+    if train_params.get('out_n_neurons') is not None:
+        hparams['out_n_neurons'] = int(train_params['out_n_neurons'])
+    elif train_params['num_spk'] == 'ALL':
         hparams['out_n_neurons'] = 921
     else:
         hparams['out_n_neurons'] = int(train_params['num_spk'])
@@ -61,7 +63,6 @@ def asv_train_speechbrain(train_params, output_dir):
     if torch.cuda.device_count() > 0:
         sb_run_opts['data_parallel_backend'] = True
     train_asv_speaker_embeddings(config, hparams, run_opts=sb_run_opts)
-
 
 
 def asv_train_speechbrain_ssl(train_params, output_dir):
@@ -83,7 +84,9 @@ def asv_train_speechbrain_ssl(train_params, output_dir):
 
     config = train_params['train_config']
 
-    if train_params['num_spk'] == 'ALL':
+    if train_params.get('out_n_neurons') is not None:
+        hparams['out_n_neurons'] = int(train_params['out_n_neurons'])
+    elif train_params['num_spk'] == 'ALL':
         hparams['out_n_neurons'] = 921
     else:
         hparams['out_n_neurons'] = int(train_params['num_spk'])

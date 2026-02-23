@@ -4,9 +4,20 @@
 1. `git clone https://github.com/xiaoxiaomiao323/vpc2026-dev.git`
 2. `./00_install.sh`
 3. `source env.sh`
-4. `./01_download_data_model_track2.sh`
-5. `bash 02_run_mls.sh`
 
+For track 1: 
+1. Download data and models:
+```bash 01_download_data_model_track1.sh```
+
+3. Run Track 1 (semi-informed EER, ASR, UAR): ```02_run_track1.sh```
+
+For track2:
+
+1. Download data and models: ```bash 01_download_data_model_track2.sh```
+
+2. Run Track 2 (lazy-informed EER, ASR, UAR): ```bash 02_run_track2.sh ```
+
+3. Run Track 2 post evaluation (semi-informed EER):```bash 02_run_track2_post.sh```
 
 # Recipe for VoicePrivacy Challenge 2024
 

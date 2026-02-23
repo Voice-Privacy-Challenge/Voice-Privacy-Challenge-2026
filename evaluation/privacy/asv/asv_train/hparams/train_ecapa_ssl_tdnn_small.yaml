@@ -44,7 +44,7 @@ n_mels: 80
 left_frames: 0
 right_frames: 0
 deltas: False
-
+wavlm_max_length: 10.0
 
 # Number of speakers
 out_n_neurons: 921 ##921 for libri-train-clean-360
@@ -53,6 +53,8 @@ dataloader_options:
     batch_size: !ref <batch_size>
     shuffle: !ref <shuffle>
     num_workers: !ref <num_workers>
+    drop_last: True  # avoid batch_size=1 at epoch end (BatchNorm fails)
+
 
 # Functions
 compute_features: !new:speechbrain.lobes.features.Fbank

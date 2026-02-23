@@ -2,6 +2,7 @@
 # https://github.com/speechbrain/speechbrain/blob/develop/recipes/VoxCeleb/SpeakerRec/train_speaker_embeddings.py
 
 import os
+import re
 import torch
 import copy
 from typing import List, Tuple, Dict, Union
@@ -27,7 +28,7 @@ class WavLMFeatureExtractor:
     predefined folders and performs true batched inference.
     """
 
-    def __init__(self, model_path: str, device: str = None, INPUT_FOLDERS: list =None):
+    def __init__(self, model_path: str, device: str = None, INPUT_FOLDERS: list = None, max_length: float = 10.0):
         if device is None:
             self.device = "cuda" if torch.cuda.is_available() else "cpu"
         else:
@@ -40,7 +41,8 @@ class WavLMFeatureExtractor:
         self.model.load_state_dict(checkpoint['model'])
         self.model.to(self.device)
         self.model.eval()
-        print("Extractor is ready.")
+        self.max_length = max_length  # seconds; >max_length: random crop, <max_length: pad
+        print(f"Extractor is ready (max_length={max_length}s).")
 
     def _find_audio_path(self, audio_name: str) -> str:
         """
@@ -71,18 +73,35 @@ class WavLMFeatureExtractor:
             audio_input = F.layer_norm(audio_input, audio_input.shape)
         return audio_input, sr
 
+    def _crop_or_pad(self, audio: torch.Tensor, sr: int) -> torch.Tensor:
+        """Crop to max_length if longer (random segment), pad if shorter."""
+        max_samples = int(self.max_length * sr)
+        n = audio.shape[0]
+        if n > max_samples:
+            start = torch.randint(0, n - max_samples + 1, (1,)).item()
+            return audio[start : start + max_samples]
+        elif n < max_samples:
+            return F.pad(audio, (0, max_samples - n), mode="constant", value=0)
+        return audio
+
     def extract_features(
-        self, 
-        audio_names: Union[str, List[str], Tuple[str, ...]]
+        self,
+        audio_names: Union[str, List[str], Tuple[str, ...]] = None,
+        audio_paths: Union[str, List[str], Tuple[str, ...]] = None
     ) -> Dict[str, Union[List[torch.Tensor], List[str]]]:
-        if isinstance(audio_names, str):
-            audio_names = [audio_names]
+        """Extract WavLM features. Prefer audio_paths (from CSV wav column) for robustness across all languages."""
+        if audio_paths is not None:
+            paths = [audio_paths] if isinstance(audio_paths, str) else list(audio_paths)
+        elif audio_names is not None:
+            names = [audio_names] if isinstance(audio_names, str) else list(audio_names)
+            paths = [self._find_audio_path(n) for n in names]
+        else:
+            raise ValueError("Either audio_names or audio_paths must be provided")
 
         audio_inputs = []
-        for name in audio_names:
-            # breakpoint()
-            path = self._find_audio_path(name)
-            audio, _ = self._load_audio(path)
+        for path in paths:
+            audio, sr = self._load_audio(path)
+            audio = self._crop_or_pad(audio, sr)
             audio_inputs.append(audio)
         padded_batch = pad_sequence(audio_inputs, batch_first=True)
         padded_batch = padded_batch.to(self.device)
@@ -101,20 +120,20 @@ class WavLMFeatureExtractor:
 
 def normalize_uttid(uttids: Union[str, List[str]]) -> Union[str, List[str]]:
     """
-    Normalize utterance IDs by:
-    1. Removing the '_start_end' suffix.
-    2. Converting double dashes '--' to single dashes '-'.
+    Normalize utterance IDs for WavLM file lookup:
+    1. Remove trailing '_start_end' suffix (e.g. _0.0_3.0) to get base utt_id.
+    2. Convert double dashes '--' to single '-' for Libri-style ids.
 
-    Can accept a single string or a list of strings.
+    E.g. DEP_9e4Ipo3C_0.0_3.0 -> DEP_9e4Ipo3C (Japanese), 1234--5678--9012_0.0_3.0 -> 1234-5678-9012 (Libri)
     """
     if isinstance(uttids, str):
-        # breakpoint()
-        base = uttids.split("_")[0]
+        # Strip trailing _num_num (chunk suffix)
+        base = re.sub(r"_[0-9.]+_[0-9.]+$", "", uttids)
         return base.replace("--", "-")
     elif isinstance(uttids, list):
         return [normalize_uttid(u) for u in uttids]
     else:
-        raise TypeError(f"Expected str or list of str, got {type(uttids)}")("--", "-")
+        raise TypeError(f"Expected str or list of str, got {type(uttids)}")
 
 
 
@@ -176,11 +195,13 @@ class SpeakerBrain(sb.core.Brain):
         feats = self.modules.compute_features(wavs)
         feats = self.modules.mean_var_norm(feats, lens)
 
-        # Embeddings + speaker classifier
-        
-        uttid = normalize_uttid(batch.id)
-
-        get_wav2vec2features = self.wavlm_extractor.extract_features(uttid)
+        # Embeddings + speaker classifier: use wav paths from CSV (robust for cn/ja/en/es/de/fr)
+        wav_paths = batch.wav if hasattr(batch, "wav") and batch.wav is not None else None
+        if wav_paths is not None:
+            get_wav2vec2features = self.wavlm_extractor.extract_features(audio_paths=wav_paths)
+        else:
+            uttid = normalize_uttid(batch.id)
+            get_wav2vec2features = self.wavlm_extractor.extract_features(audio_names=uttid)
         embeddings = self.modules.embedding_model(feats, get_wav2vec2features)
         self.emb = embeddings
         outputs = self.modules.classifier(embeddings)
@@ -439,7 +460,13 @@ def train_asv_speaker_embeddings_ssl_ft(config_file, hparams_file, run_opts):
     INPUT_FOLDERS = [
         hparams['data_folder']+'/wav',
     ]
-    wavlm_ = WavLMFeatureExtractor(hparams["pretrained_wavlm_model"], device=device,INPUT_FOLDERS=INPUT_FOLDERS)
+    max_length = hparams.get("wavlm_max_length", 3.0)  # seconds
+    wavlm_ = WavLMFeatureExtractor(
+        hparams["pretrained_wavlm_model"],
+        device=device,
+        INPUT_FOLDERS=INPUT_FOLDERS,
+        max_length=max_length,
+    )
     speaker_brain.wavlm_extractor = wavlm_
 
     speaker_brain.fit(

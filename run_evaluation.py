@@ -109,6 +109,8 @@ if __name__ == '__main__':
             if 'training' in asv_params:
                 model_dir = params['privacy']['asv']['training']['model_dir']
                 asv_train_params = asv_params['training']
+                #if asv_train_params["num_utt_per_spk"]!="ALL":
+                #    limit_utts_per_speaker(asv_train_params['train_data_dir'],int(asv_train_params["num_utt_per_spk"]))
                 if not model_dir.exists() or asv_train_params.get('retrain', True) is True:
                     start_time = time.time()
                     logger.info('====================')

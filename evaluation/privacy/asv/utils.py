@@ -100,7 +100,7 @@ def normalize_wave(wave, sr, device):
     wave = wave.squeeze().cpu().numpy()
 
     # normalize loudness (skip for very short or silent audio to avoid pyln errors)
-    norm_wave = wave
+    norm_wave = wave.copy()
     peak_abs = np.amax(np.abs(wave))
     if peak_abs > 0 and dur >= 0.02:
         try:
@@ -110,14 +110,27 @@ def normalize_wave(wave, sr, device):
             loudness = meter.integrated_loudness(wave)
             if np.isfinite(loudness):
                 loud_normed = pyln.normalize.loudness(wave, loudness, -30.0)
-                peak = np.amax(np.abs(loud_normed))
-                if peak > 0:
-                    norm_wave = np.divide(loud_normed, peak)
+                if np.all(np.isfinite(loud_normed)):
+                    peak = np.amax(np.abs(loud_normed))
+                    if peak > 0:
+                        norm_wave = np.divide(loud_normed, peak)
+                    else:
+                        norm_wave = wave / peak_abs
+                else:
+                    norm_wave = wave / peak_abs
+            else:
+                norm_wave = wave / peak_abs
         except (ZeroDivisionError, ValueError, Exception) as e:
             logger.debug("Loudness normalization failed (%s), using peak norm", e)
             norm_wave = wave / peak_abs
     elif peak_abs > 0:
         norm_wave = wave / peak_abs
+    else:
+        # silent audio: add tiny noise floor to avoid NaN embeddings from embedding model
+        norm_wave = np.random.randn(*wave.shape).astype(wave.dtype) * 1e-6
+
+    # ensure finite output (prevents NaN/Inf propagating to embeddings)
+    norm_wave = np.nan_to_num(norm_wave, nan=0.0, posinf=0.0, neginf=0.0)
 
     wave = torch.Tensor(norm_wave).to(device)
 

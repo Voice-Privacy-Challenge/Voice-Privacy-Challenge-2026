@@ -44,13 +44,6 @@ def asv_eval_speechbrain(eval_datasets, eval_data_dir, params, device, anon_data
             # Extract dataset and subset information
             dataset = trials_info[0]
             split = trials_info[1]
-            # Check if there's a subset identifier (nonpara30, parallel100, both) in the trial name
-            if len(trials_info) > 2:
-                subset_candidates = ['nonpara30', 'parallel100', 'both']
-                for subset in subset_candidates:
-                    if subset in trial:
-                        dataset = f"{dataset}_{subset}"
-                        break
             
             results.append({'dataset': dataset, 'split': split, 'gender': gender,
                             'enrollment': 'original' if scenario[0] == 'o' else 'anon',

@@ -54,12 +54,15 @@ datasets:
     data: de_test
     enrolls: [_enrolls]
     trials: [_trials_f, _trials_m]
+  - name: emodata_track2
+    data: emodata_track2
 
 eval_steps:  # all metrics in this list will be computed in the evaluation. Remove entry to skip
   privacy:
     - asv
   utility:
     - asr
+    - ser
 
 privacy:
   asv:
@@ -89,3 +92,14 @@ utility:
       model_dir: !ref <exp_dir>/<utility[asr][model_name]>
       eval_batchsize: 8 # Requires < 12Gib for the 'asr_pre_ctc_wav2vec2' model
       results_dir: !ref <exp_dir>/<utility[asr][model_name]>
+  ser:
+    dataset_name: [emodata_track2]
+    model_name: ser_emotion2vec
+    model_type: ser_ssl
+
+    evaluation:
+      backend: emotion2vec
+      model_id: emotion2vec/emotion2vec_plus_large
+      hub: hf  # hf/huggingface for overseas; ms/modelscope for China
+      model_dir: !ref <exp_dir>/<utility[ser][model_name]>
+      results_dir: !ref <exp_dir>/<utility[ser][model_name]>

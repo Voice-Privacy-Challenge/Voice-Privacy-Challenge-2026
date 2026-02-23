@@ -108,3 +108,43 @@ if [ ! -d $check_data ]; then
     echo "Unpacking .mls_langs.zip"
     unzip .mls_langs.zip
 fi
+
+check_data=data/emodata_track2
+if [ ! -d $check_data ]; then
+    cd data/
+    if  [ ! -f .emodata_track2.zip ]; then
+        echo "Download emodata_track2..."
+        wget -O emodata_track2.zip https://duke.app.box.com/shared/static/17zjskzslxl11vjlujm041zr412j0zvk
+        mv emodata_track2.zip .emodata_track2.zip
+    fi
+    echo "Unpacking .emodata_track2.zip"
+    unzip .emodata_track2.zip
+    cd ..
+fi
+
+# Train data URLs (chinese, japanese; add english/german/spanish/french as needed)
+declare -A train_urls=(
+    ["chinese"]="https://duke.app.box.com/shared/static/781x91n13on4oki9cfmb4mgfulq2faa3"
+    ["japanese"]="https://duke.app.box.com/shared/static/ag7dmjzfen7utwhc2iwvrded1hfyo5ye"
+    ["english"]="https://duke.app.box.com/shared/static/l4tkryb5w140da11n56ijd2tccdr8ajn"
+    ["german"]="https://duke.app.box.com/shared/static/5r3s0bzczdiiosycqy368k6sa0jsguu3"
+    ["spanish"]="https://duke.app.box.com/shared/static/e99rs57lw74tracwfzxikfe8z4lnafj5"
+    ["french"]="https://duke.app.box.com/shared/static/xr34gltyhpiue440fi1o0jlllgt7odgp"
+)
+
+check_data=data/train_chinese
+if [ ! -d "$check_data" ]; then
+    mkdir -p data
+    cd data
+    for lang in chinese japanese english german spanish french; do
+        [ -z "${train_urls[$lang]:-}" ] && continue
+        if [ ! -f ".${lang}.zip" ]; then
+            echo "Download ${lang}..."
+            wget -O "${lang}.zip" "${train_urls[$lang]}"
+            mv "${lang}.zip" ".${lang}.zip"
+        fi
+        echo "Unpacking .${lang}.zip"ex
+        unzip -q ".${lang}.zip"
+    done
+    cd ..
+fi

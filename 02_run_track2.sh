@@ -1,7 +1,8 @@
 #!/bin/bash
-#export CUDA_VISIBLE_DEVICES=7
+export CUDA_VISIBLE_DEVICES=1
 set -e
 
+cd "$(dirname "$0")"
 source env.sh
 
 ### Variables
@@ -12,14 +13,13 @@ track=track2 #track1, track2
 if [ -n "$1" ]; then
   anon_config=$1
 else
-  # anon_config=configs/$track/anon_sttts_multi.yaml
-  # anon_config=configs/$track/anon_nac.yaml
+  # anon_config=configs/$track/anon_sttts.yaml
   anon_config=configs/$track/anon_ssl.yaml
 fi
 echo "Using config: $anon_config"
 
 force_compute=
-force_compute='--force_compute True'
+force_compute='--force_compute False'
 
 # JSON to modify run_evaluation(s) configs, see below
 eval_overwrite="{"
@@ -34,11 +34,11 @@ else
   eval_overwrite="$eval_overwrite}"
 fi
 echo $anon_suffix
-# Generate anonymized audio (libri dev+test set & IEMOCAP dev+test set & libri-360h)
-echo python run_anonymization.py --config ${anon_config} ${force_compute}
+# Generate anonymized audio (multilang dev+test set & emotion_track2)
+echo "Running anonymization..."
 python run_anonymization.py --config ${anon_config} ${force_compute}
 
-# Perform libri dev+test & IEMOCAP dev+test pre evaluation using pretrained ASR/ASV/SER models
+# Perform multilang dev+test & emotion_track2 pre evaluation using pretrained ASR/ASV/SER models
 python run_evaluation.py --config $(dirname ${anon_config})/eval_pre.yaml --overwrite "${eval_overwrite}" ${force_compute}
 
 # Merge results
@@ -49,4 +49,16 @@ results_exp=exp/results_summary/$track
 mkdir -p ${results_exp}
 # Only copy eval_pre results 
 cp "${results_summary_path_orig}" "${results_exp}/result_for_rank${anon_suffix}"
-zip ${results_exp}/result_for_submission${anon_suffix}.zip -r exp/asr/*${anon_suffix} exp/asr/*${anon_suffix}.csv exp/ser/*${anon_suffix}.csv exp/results_summary/*${anon_suffix}* exp/asv_orig/*${anon_suffix} exp/asv_orig/*${anon_suffix}.csv exp/asv_anon${anon_suffix} > /dev/null
+# Copy CSV results (ASR=openai/whisper-large-v3, SER=emotion2vec, ASV=asv_ssl)
+[ -f "exp/openai/whisper-large-v3/results${anon_suffix}.csv" ] && cp "exp/openai/whisper-large-v3/results${anon_suffix}.csv" "${results_exp}/asr_results${anon_suffix}.csv"
+[ -f "exp/ser_emotion2vec/results${anon_suffix}.csv" ] && cp "exp/ser_emotion2vec/results${anon_suffix}.csv" "${results_exp}/ser_results${anon_suffix}.csv"
+[ -f "exp/asv_ssl/results${anon_suffix}.csv" ] && cp "exp/asv_ssl/results${anon_suffix}.csv" "${results_exp}/asv_results${anon_suffix}.csv"
+# Zip for submission (result_for_rank is primary; CSVs and exp outputs for inspection)
+# Include exp/asv_ssl but exclude track1 (libri_*)
+zip ${results_exp}/result_for_submission${anon_suffix}.zip -r \
+  -x "*libri*" \
+  "${results_exp}/result_for_rank${anon_suffix}" \
+  exp/openai exp/ser_emotion2vec exp/asv_ssl \
+  exp/results_summary/*${anon_suffix}* \
+  ${results_exp}/*.csv \
+  > /dev/null 2>&1 || true

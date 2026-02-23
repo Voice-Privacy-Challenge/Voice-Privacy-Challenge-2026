@@ -53,11 +53,13 @@ datasets:
     data: de_test
     enrolls: [_enrolls]
     trials: [_trials_f, _trials_m]
+  - name: emodata_track2
+    data: emodata_track2
 
 modules:
   anon_suffix: !ref <anon_suffix>
-  anon_level_random_per_utt:      [en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test, cn_dev, cn_test, ja_dev, ja_test] # Overwrite anon_level_constant because above
-  anon_level_constant:            [en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test, cn_dev, cn_test, ja_dev, ja_test]
+  anon_level_random_per_utt:      [en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test, cn_dev, cn_test, ja_dev, ja_test, emodata_track2] # Overwrite anon_level_constant because above
+  anon_level_constant:            [en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test, cn_dev, cn_test, ja_dev, ja_test, emodata_track2]
   #target_constant_spkid: "6081" # For anon_level_constant, must be one of the training data (libriTTS)
   device: "cuda"
   batch_size: 8 # works with GPU < 12Gib

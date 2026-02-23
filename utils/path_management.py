@@ -42,25 +42,61 @@ def remove_contents_in_dir(dir_name:Path):
 #     except ValueError:
 #         # Handle the case where conversion to int fails
 #         return None
-def scan_checkpoint(cp_dir, prefix):
-    pattern = os.path.join(cp_dir, prefix + '*')
+def _parse_train_log_for_best_epoch(cp_dir):
+    """Parse train_log.txt to find epoch with lowest valid loss.
+    Format: 'epoch: N, lr: ... - train loss: X - valid loss: Y, valid ErrorRate: Z'
+    Returns (best_epoch, min_valid_loss) or (None, None) if not found."""
+    log_path = Path(cp_dir) / "train_log.txt"
+    if not log_path.exists():
+        return None, None
+    best_epoch, min_loss = None, float("inf")
+    # epoch: 1, lr: 1.44e-04 - train loss: 14.85 - valid loss: 14.58, valid ErrorRate: 9.99e-01
+    pat = re.compile(r"epoch:\s*(\d+).*?valid loss:\s*([\d.e+-]+)", re.DOTALL)
+    try:
+        with open(log_path) as f:
+            for line in f:
+                m = pat.search(line)
+                if m:
+                    ep, loss = int(m.group(1)), float(m.group(2))
+                    if loss < min_loss:
+                        min_loss, best_epoch = loss, ep
+    except Exception:
+        return None, None
+    return best_epoch, min_loss if best_epoch is not None else None
+
+
+def scan_checkpoint(cp_dir, prefix, select_by_valid_loss=True):
+    """Select checkpoint: by lowest valid loss (from train_log.txt) if select_by_valid_loss,
+    else by max numeric suffix (epoch)."""
+    cp_dir = Path(cp_dir)
+    pattern = str(cp_dir / (prefix + '*'))
     cp_list = glob.glob(pattern)
 
+    if select_by_valid_loss:
+        best_epoch, _ = _parse_train_log_for_best_epoch(cp_dir)
+        if best_epoch is not None:
+            # Checkpoint names: CKPT+1, CKPT+2 (SpeechBrain format)
+            ckpt_name = f"{prefix}+{best_epoch}" if not prefix.endswith("+") else f"{prefix}{best_epoch}"
+            ckpt_path = cp_dir / ckpt_name
+            if ckpt_path.exists() and ckpt_path.is_dir():
+                return ckpt_path
+
     numeric_ckpts = []
-
     for ckpt in cp_list:
-        name = os.path.basename(ckpt)
+        ckpt_path = Path(ckpt)
+        if not ckpt_path.is_dir():
+            continue
+        name = ckpt_path.name
+        if not name.startswith(prefix):
+            continue
         suffix = name[len(prefix):]
-
-        # matches "123" or "+123" only
         if re.fullmatch(r"\+?\d+", suffix):
             numeric = int(suffix.lstrip("+"))
-            numeric_ckpts.append((numeric, ckpt))
+            numeric_ckpts.append((numeric, ckpt_path))
 
-    if not numeric_ckpts:
-        return None
-
-    return Path(max(numeric_ckpts)[1])
+    if numeric_ckpts:
+        return max(numeric_ckpts, key=lambda x: x[0])[1]
+    return None
 
 
 def get_datasets(config):

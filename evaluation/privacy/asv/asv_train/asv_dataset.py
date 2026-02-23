@@ -67,11 +67,11 @@ class ASVDatasetGenerator:
         sb.dataio.dataset.add_dynamic_item(datasets, label_pipeline)
 
         # 3. Fit encoder:
-        # Load or compute the label encoder (with multi-GPU DDP support)
+        # Load or compute the label encoder (train + dev so validation speakers are known)
         label_encoder.load_or_create(
-            path=self.lab_enc_file, from_didatasets=[train_dataset], output_key='spk_id')
+            path=self.lab_enc_file, from_didatasets=[train_dataset, dev_dataset], output_key='spk_id')
 
-        # 4. Set output:
-        sb.dataio.dataset.set_output_keys(datasets, ['id', 'sig', 'spk_id_encoded'])
+        # 4. Set output: include 'wav' for WavLM extractor (works for all formats: cn/ja/en/es/de/fr)
+        sb.dataio.dataset.set_output_keys(datasets, ['id', 'sig', 'spk_id_encoded', 'wav'])
 
         return train_dataset, dev_dataset

@@ -135,12 +135,12 @@ def _get_utt_split_lists(
 
     logger.debug("Getting file list...")
 
-    out_utt2spk = []
+    out_utt2spk = {}
     for data_folder in data_folders:
         spk2utt = read_kaldi_format(data_folder / 'spk2utt')
         utt2spk = read_kaldi_format(data_folder / 'utt2spk')
         spk_files = read_kaldi_format(data_folder / 'wav.scp')
-        out_utt2spk += utt2spk
+        out_utt2spk = {**out_utt2spk, **utt2spk} if isinstance(out_utt2spk, dict) else utt2spk
         spks_pure = spk2utt.keys()
         full_utt = len(spks_pure)
 
@@ -280,17 +280,29 @@ def prepare_csv(seg_dur, wav_lst, utt2spk, csv_file, random_segment=False, amp_t
     my_sep = "--"
     entry = []
     problematic_wavs = []
+    # Build utt_id -> spk_id lookup (utt2spk may be dict or legacy list of utt_ids)
+    utt2spk_dict = utt2spk if isinstance(utt2spk, dict) else {}
+
     # Processing all the wav files in the list
     for wav_file in tqdm(wav_lst, dynamic_ncols=True):
         # Getting sentence and speaker ids
-        # TODO use utt2spk (but with the current impl, wav_file loses it's uniq id)
+        temp = wav_file.split("/")[-1].split(".")[0]  # utt_id from filename
         try:
-            temp = wav_file.split("/")[-1].split(".")[0]
-            [spk_id, sess_id, utt_id] = temp.split('-')[-3:]
-        except ValueError:
-            logger.info(f"Malformed path: {wav_file}")
-            continue
-        audio_id = my_sep.join([spk_id, sess_id, utt_id.split(".")[0]])
+            parts = temp.split('-')
+            if len(parts) >= 3:
+                [spk_id, sess_id, utt_id] = parts[-3:]
+            else:
+                # Non-Libri: use utt_id from filename, spk_id from utt2spk. Supports: Aishell (BAC009*), Japanese (AAA_*, DEP_*), MLS (10001_8844_*)
+                utt_id = temp
+                spk_id = utt2spk_dict.get(utt_id, utt_id)
+                sess_id = ""
+        except (ValueError, TypeError) as e:
+            logger.debug(f"Fallback for {wav_file}: {e}")
+            utt_id = temp
+            spk_id = utt2spk_dict.get(utt_id, utt_id)
+            sess_id = ""
+        # Libri: audio_id = spk--sess--utt (WavLM finds {utt}.wav under spk/sess/). Non-Libri: use utt_id so WavLM finds {utt_id}.wav
+        audio_id = my_sep.join([spk_id, sess_id, utt_id]) if sess_id else utt_id
 
         # Reading the signal (to retrieve duration in seconds)
         try:
