@@ -253,6 +253,7 @@ def _process_single_subset(
     out_enroll_dir: Path | None,
     out_trials_f_dir: Path | None,
     out_trials_m_dir: Path | None,
+    out_trials_mixed_dir: Path | None,
     skip_subsets: bool,
 ) -> None:
     """Process a single subset independently."""
@@ -278,11 +279,12 @@ def _process_single_subset(
     # Build enrollment and trials from this subset's data
     male_targets = [spk for spk, gender in spk2gender_map.items() if gender.upper() == "M" and spk in merged_spk2utt]
     female_targets = [spk for spk, gender in spk2gender_map.items() if gender.upper() == "F" and spk in merged_spk2utt]
+    mixed_targets = male_targets + female_targets
     
     if not (0 < enroll_per_spk_ratio <= 1):
         raise SystemExit("--enroll-per-spk-ratio must be 0<ratio<=1 or percentage")
 
-    enroll_map = _sample_enrollment(male_targets + female_targets, merged_spk2utt, enroll_per_spk_ratio, enroll_seed)
+    enroll_map = _sample_enrollment(mixed_targets, merged_spk2utt, enroll_per_spk_ratio, enroll_seed)
     all_enroll_utts = {utt for utts in enroll_map.values() for utt in utts}
     enroll_lines = _get_enrollment_lines(enroll_map)
     
@@ -290,18 +292,22 @@ def _process_single_subset(
     enroll_dir = out_enroll_dir or (data_dir.parent / f"{lan}_{subset_name}_enrolls")
     trial_f_dir = out_trials_f_dir or (data_dir.parent / f"{lan}_{subset_name}_trials_f")
     trial_m_dir = out_trials_m_dir or (data_dir.parent / f"{lan}_{subset_name}_trials_m")
+    trial_mixed_dir = out_trials_mixed_dir or (data_dir.parent / f"{lan}_{subset_name}_trials_mixed")
     
     # Build trial candidates (exclude enrollment utterances)
     female_candidates = [utt for spk in female_targets for utt in merged_spk2utt.get(spk, []) if utt not in all_enroll_utts]
     male_candidates = [utt for spk in male_targets for utt in merged_spk2utt.get(spk, []) if utt not in all_enroll_utts]
+    mixed_candidates = female_candidates + male_candidates
 
     female_trials, female_stats = _build_trials(female_targets, female_candidates, utt2spk)
     male_trials, male_stats = _build_trials(male_targets, male_candidates, utt2spk)
+    mixed_trials, mixed_stats = _build_trials(mixed_targets, mixed_candidates, utt2spk)
 
     if not skip_subsets:
         _filter_maps(set(enroll_lines), utt2spk, spk2gender_map, merged_spk2utt, text, utt2dur, wav, enroll_dir, None, enroll_lines)
         _filter_maps(set(u.split()[1] for u in female_trials), utt2spk, spk2gender_map, merged_spk2utt, text, utt2dur, wav, trial_f_dir, female_trials, None)
         _filter_maps(set(u.split()[1] for u in male_trials), utt2spk, spk2gender_map, merged_spk2utt, text, utt2dur, wav, trial_m_dir, male_trials, None)
+        _filter_maps(set(u.split()[1] for u in mixed_trials), utt2spk, spk2gender_map, merged_spk2utt, text, utt2dur, wav, trial_mixed_dir, mixed_trials, None)
 
     # Calculate per-speaker statistics
     all_targets = sorted(male_targets + female_targets)
@@ -312,9 +318,13 @@ def _process_single_subset(
         trial_utts = total_utts - enroll_utts
         
         # Count target and nontarget trials for this speaker
-        target_count = sum(1 for line in female_trials + male_trials 
+        target_count_sep = sum(1 for line in female_trials + male_trials 
                           if line.split()[0] == spk and line.split()[2] == "target")
-        nontarget_count = sum(1 for line in female_trials + male_trials 
+        nontarget_count_sep = sum(1 for line in female_trials + male_trials 
+                             if line.split()[0] == spk and line.split()[2] == "nontarget")
+        target_count_mixed = sum(1 for line in mixed_trials 
+                          if line.split()[0] == spk and line.split()[2] == "target")
+        nontarget_count_mixed = sum(1 for line in mixed_trials 
                              if line.split()[0] == spk and line.split()[2] == "nontarget")
         
         spk_stats[spk] = {
@@ -322,8 +332,10 @@ def _process_single_subset(
             "total_utts": total_utts,
             "enroll_utts": enroll_utts,
             "trial_utts": trial_utts,
-            "target_trials": target_count,
-            "nontarget_trials": nontarget_count,
+            "target_trials_sep": target_count_sep,
+            "nontarget_trials_sep": nontarget_count_sep,
+            "target_trials_mixed": target_count_mixed,
+            "nontarget_trials_mixed": nontarget_count_mixed,
         }
 
     # Print summary statistics
@@ -331,19 +343,19 @@ def _process_single_subset(
     print(f"Statistics for {lan} {subset_name}")
     print(f"{'='*80}\n")
     
-    print("| Subset | Trials | Female | Male | Total | Speakers |")
-    print("| --- | --- | --- | --- | --- | --- |")
+    print("| Subset | Trials | Female | Male | Mixed | Separated Total | Speakers |")
+    print("| --- | --- | --- | --- | --- | --- | --- |")
     print(
         f"| MLS German {subset_name} | Same-speaker | "
-        f"{female_stats['target']} | {male_stats['target']} | "
+        f"{female_stats['target']} | {male_stats['target']} | {mixed_stats['target']} | "
         f"{female_stats['target'] + male_stats['target']} | "
-        f"Female {len(female_targets)} / Male {len(male_targets)} (total {len(female_targets) + len(male_targets)}) |"
+        f"Female {len(female_targets)} / Male {len(male_targets)} / Mixed {len(mixed_targets)} |"
     )
     print(
         f"| MLS German {subset_name} | Different-speaker | "
-        f"{female_stats['nontarget']} | {male_stats['nontarget']} | "
+        f"{female_stats['nontarget']} | {male_stats['nontarget']} | {mixed_stats['nontarget']} | "
         f"{female_stats['nontarget'] + male_stats['nontarget']} | "
-        f"Female {len(female_targets)} / Male {len(male_targets)} (total {len(female_targets) + len(male_targets)}) |"
+        f"Female {len(female_targets)} / Male {len(male_targets)} / Mixed {len(mixed_targets)} |"
     )
     
     # Print overall statistics
@@ -351,28 +363,32 @@ def _process_single_subset(
     total_utterances = sum(len(utts) for utts in merged_spk2utt.values())
     total_enroll_utts = len(all_enroll_utts)
     total_trial_utts = total_utterances - total_enroll_utts
-    total_target_trials = female_stats['target'] + male_stats['target']
-    total_nontarget_trials = female_stats['nontarget'] + male_stats['nontarget']
+    total_target_trials_sep = female_stats['target'] + male_stats['target']
+    total_nontarget_trials_sep = female_stats['nontarget'] + male_stats['nontarget']
     
     print(f"\nOverall Statistics:")
     print(f"  Total speakers: {total_speakers} (Female: {len(female_targets)}, Male: {len(male_targets)})")
     print(f"  Total utterances: {total_utterances}")
     print(f"  Enrollment utterances: {total_enroll_utts} ({total_enroll_utts/total_utterances*100:.1f}%)")
     print(f"  Trial utterances: {total_trial_utts} ({total_trial_utts/total_utterances*100:.1f}%)")
-    print(f"  Total trials: {total_target_trials + total_nontarget_trials}")
-    print(f"    Target trials: {total_target_trials}")
-    print(f"    Nontarget trials: {total_nontarget_trials}")
+    print(f"  Total separated trials: {total_target_trials_sep + total_nontarget_trials_sep}")
+    print(f"    Separated Target trials: {total_target_trials_sep}")
+    print(f"    Separated Nontarget trials: {total_nontarget_trials_sep}")
+    print(f"  Total mixed trials: {mixed_stats['target'] + mixed_stats['nontarget']}")
+    print(f"    Mixed Target trials: {mixed_stats['target']}")
+    print(f"    Mixed Nontarget trials: {mixed_stats['nontarget']}")
     print(f"  Enrollment ratio: {enroll_per_spk_ratio*100:.1f}%")
     
     # Print per-speaker statistics
     print(f"\nPer-Speaker Statistics:")
-    print(f"{'Speaker':<15} {'Gender':<8} {'Total':<8} {'Enroll':<8} {'Trial':<8} {'Target':<10} {'Nontarget':<12}")
-    print("-" * 80)
+    print(f"{'Speaker':<15} {'Gender':<8} {'Total':<8} {'Enroll':<8} {'Trial':<8} {'Sep_Target':<12} {'Mix_Target':<12} {'Sep_Nontrg':<12} {'Mix_Nontrg':<12}")
+    print("-" * 110)
     for spk in sorted(all_targets):
         stats = spk_stats[spk]
         print(f"{spk:<15} {stats['gender']:<8} {stats['total_utts']:<8} "
               f"{stats['enroll_utts']:<8} {stats['trial_utts']:<8} "
-              f"{stats['target_trials']:<10} {stats['nontarget_trials']:<12}")
+              f"{stats['target_trials_sep']:<12} {stats['target_trials_mixed']:<12} "
+              f"{stats['nontarget_trials_sep']:<12} {stats['nontarget_trials_mixed']:<12}")
     
     # Print gender-based statistics
     print(f"\nGender-based Statistics:")
@@ -383,8 +399,9 @@ def _process_single_subset(
         gender_total_utts = sum(spk_stats[spk]['total_utts'] for spk in gender_speakers)
         gender_enroll_utts = sum(spk_stats[spk]['enroll_utts'] for spk in gender_speakers)
         gender_trial_utts = sum(spk_stats[spk]['trial_utts'] for spk in gender_speakers)
-        gender_target_trials = sum(spk_stats[spk]['target_trials'] for spk in gender_speakers)
-        gender_nontarget_trials = sum(spk_stats[spk]['nontarget_trials'] for spk in gender_speakers)
+        gender_target_trials = sum(spk_stats[spk]['target_trials_sep'] for spk in gender_speakers)
+        gender_nontarget_trials_sep = sum(spk_stats[spk]['nontarget_trials_sep'] for spk in gender_speakers)
+        gender_nontarget_trials_mixed = sum(spk_stats[spk]['nontarget_trials_mixed'] for spk in gender_speakers)
         
         print(f"  {gender_label}:")
         print(f"    Speakers: {len(gender_speakers)}")
@@ -392,7 +409,8 @@ def _process_single_subset(
         print(f"    Enrollment utterances: {gender_enroll_utts}")
         print(f"    Trial utterances: {gender_trial_utts}")
         print(f"    Target trials: {gender_target_trials}")
-        print(f"    Nontarget trials: {gender_nontarget_trials}")
+        print(f"    Separated Nontarget trials: {gender_nontarget_trials_sep}")
+        print(f"    Mixed Nontarget trials: {gender_nontarget_trials_mixed}")
     
     # Print utterances for each speaker
     print(f"\n{'='*80}")
@@ -450,6 +468,12 @@ def main() -> None:
         type=Path,
         default=None,
         help="Directory for filtered male trials subset.",
+    )
+    parser.add_argument(
+        "--out-trials-mixed-dir",
+        type=Path,
+        default=None,
+        help="Directory for filtered mixed trials subset.",
     )
     parser.add_argument(
         "--enroll-per-spk-ratio",
@@ -520,6 +544,7 @@ def main() -> None:
             args.out_enroll_dir,
             args.out_trials_f_dir,
             args.out_trials_m_dir,
+            args.out_trials_mixed_dir,
             args.skip_subsets,
         )
 

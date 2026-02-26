@@ -274,6 +274,7 @@ def _process_single_set(
     out_enroll_dir: Path | None,
     out_trials_f_dir: Path | None,
     out_trials_m_dir: Path | None,
+    out_trials_mixed_dir: Path | None,
     skip_subsets: bool,
 ) -> None:
     """Process a single set (dev or test) and generate enroll/trials."""
@@ -386,8 +387,20 @@ def _process_single_set(
         upsample_if_insufficient=upsample_insufficient_speakers,
     )
 
+    mixed_targets = female_targets + male_targets
+    mixed_candidates_raw = female_candidates_raw + male_candidates_raw
+    mixed_trials, mixed_stats = _build_trials(
+        mixed_targets, mixed_candidates_raw, utt2spk_map,
+        max_trial_utts_per_speaker=max_trial_utts,
+        seed=trial_balance_seed,
+        upsample_if_insufficient=upsample_insufficient_speakers,
+    )
+
+    trial_mixed_file = data_dir / f"{output_prefix}_trials_mixed"
+
     _write_file(trial_f_file, female_trials)
     _write_file(trial_m_file, male_trials)
+    _write_file(trial_mixed_file, mixed_trials)
 
     # Calculate per-speaker statistics
     spk_stats = {}
@@ -402,8 +415,10 @@ def _process_single_set(
             "total_utts": total_utts,
             "enroll_utts": enroll_utts,
             "trial_utts": trial_utts,
-            "target_trials": 0,
-            "nontarget_trials": 0,
+            "target_trials_sep": 0,
+            "nontarget_trials_sep": 0,
+            "target_trials_mixed": 0,
+            "nontarget_trials_mixed": 0,
         }
     
     # Parse female trials
@@ -412,9 +427,9 @@ def _process_single_set(
         if len(parts) >= 3:
             spk, utt, label = parts[0], parts[1], parts[2]
             if label == "target":
-                spk_stats[spk]["target_trials"] += 1
+                spk_stats[spk]["target_trials_sep"] += 1
             elif label == "nontarget":
-                spk_stats[spk]["nontarget_trials"] += 1
+                spk_stats[spk]["nontarget_trials_sep"] += 1
     
     # Parse male trials
     for line in male_trials:
@@ -422,33 +437,45 @@ def _process_single_set(
         if len(parts) >= 3:
             spk, utt, label = parts[0], parts[1], parts[2]
             if label == "target":
-                spk_stats[spk]["target_trials"] += 1
+                spk_stats[spk]["target_trials_sep"] += 1
             elif label == "nontarget":
-                spk_stats[spk]["nontarget_trials"] += 1
+                spk_stats[spk]["nontarget_trials_sep"] += 1
+
+    # Parse mixed trials
+    for line in mixed_trials:
+        parts = line.split()
+        if len(parts) >= 3:
+            spk, utt, label = parts[0], parts[1], parts[2]
+            if label == "target":
+                spk_stats[spk]["target_trials_mixed"] += 1
+            elif label == "nontarget":
+                spk_stats[spk]["nontarget_trials_mixed"] += 1
 
     # Print per-speaker statistics (similar to MLS output format)
     print(f"\n{'='*80}")
     print(f"PER-SPEAKER STATISTICS ({set_name.upper()})")
     print(f"{'='*80}")
-    print(f"{'Speaker':<15} {'Gender':<8} {'Total':<8} {'Enroll':<8} {'Trial':<8} {'Target':<10} {'Nontarget':<12}")
-    print("-" * 80)
+    print(f"{'Speaker':<15} {'Gender':<8} {'Total':<8} {'Enroll':<8} {'Trial':<8} {'Sep_Target':<12} {'Mix_Target':<12} {'Sep_Nontrg':<12} {'Mix_Nontrg':<12}")
+    print("-" * 110)
     for spk in sorted(all_targets):
         stats = spk_stats[spk]
         print(f"{spk:<15} {stats['gender']:<8} {stats['total_utts']:<8} "
               f"{stats['enroll_utts']:<8} {stats['trial_utts']:<8} "
-              f"{stats['target_trials']:<10} {stats['nontarget_trials']:<12}")
+              f"{stats['target_trials_sep']:<12} {stats['target_trials_mixed']:<12} "
+              f"{stats['nontarget_trials_sep']:<12} {stats['nontarget_trials_mixed']:<12}")
 
     total_female = len(female_targets)
     total_male = len(male_targets)
-    print(f"\n| Subset | Trials | Female | Male | Total | Speakers |")
-    print(f"| --- | --- | --- | --- | --- | --- |")
+    total_mixed = len(mixed_targets)
+    print(f"\n| Subset | Trials | Female | Male | Mixed | Separated Total | Speakers |")
+    print(f"| --- | --- | --- | --- | --- | --- | --- |")
     print(
-        f"| CN {output_prefix} | Same-speaker | {female_stats['target']} | {male_stats['target']} | "
-        f"{female_stats['target'] + male_stats['target']} | Female {total_female} / Male {total_male} (total {total_female + total_male}) |"
+        f"| CN {output_prefix} | Same-speaker | {female_stats['target']} | {male_stats['target']} | {mixed_stats['target']} | "
+        f"{female_stats['target'] + male_stats['target']} | Female {total_female} / Male {total_male} / Mixed {total_mixed} |"
     )
     print(
-        f"| CN {output_prefix} | Different-speaker | {female_stats['nontarget']} | {male_stats['nontarget']} | "
-        f"{female_stats['nontarget'] + male_stats['nontarget']} | Female {total_female} / Male {total_male} (total {total_female + total_male}) |"
+        f"| CN {output_prefix} | Different-speaker | {female_stats['nontarget']} | {male_stats['nontarget']} | {mixed_stats['nontarget']} | "
+        f"{female_stats['nontarget'] + male_stats['nontarget']} | Female {total_female} / Male {total_male} / Mixed {total_mixed} |"
     )
 
     if skip_subsets:
@@ -462,6 +489,7 @@ def _process_single_set(
     enroll_dir = out_enroll_dir or (default_out_base / f"{output_prefix}_enrolls")
     trials_f_dir = out_trials_f_dir or (default_out_base / f"{output_prefix}_trials_f")
     trials_m_dir = out_trials_m_dir or (default_out_base / f"{output_prefix}_trials_m")
+    trials_mixed_dir = out_trials_mixed_dir or (default_out_base / f"{output_prefix}_trials_mixed")
     _filter_maps(
         set(enroll_lines),
         utt2spk_map,
@@ -496,6 +524,18 @@ def _process_single_set(
         wav_map,
         trials_m_dir,
         male_trials,
+        None,
+    )
+    _filter_maps(
+        {u.split()[1] for u in mixed_trials},
+        utt2spk_map,
+        {spk: spk2gender_map[spk] for spk in spk2gender_map if spk in spk2utt},
+        spk2utt,
+        text_map,
+        utt2dur_map,
+        wav_map,
+        trials_mixed_dir,
+        mixed_trials,
         None,
     )
 
@@ -567,6 +607,12 @@ def main() -> None:
         type=Path,
         default=None,
         help="Directory for filtered male trial maps.",
+    )
+    parser.add_argument(
+        "--out-trials-mixed-dir",
+        type=Path,
+        default=None,
+        help="Directory for filtered mixed trial maps.",
     )
     parser.add_argument(
         "--skip-subsets",
@@ -887,6 +933,7 @@ def main() -> None:
             args.out_enroll_dir,
             args.out_trials_f_dir,
             args.out_trials_m_dir,
+            args.out_trials_mixed_dir,
             args.skip_subsets,
         )
         
@@ -912,6 +959,7 @@ def main() -> None:
             args.out_enroll_dir,
             args.out_trials_f_dir,
             args.out_trials_m_dir,
+            args.out_trials_mixed_dir,
             args.skip_subsets,
         )
         return
@@ -1013,6 +1061,7 @@ def main() -> None:
         args.out_enroll_dir,
         args.out_trials_f_dir,
         args.out_trials_m_dir,
+        args.out_trials_mixed_dir,
         args.skip_subsets,
     )
 
