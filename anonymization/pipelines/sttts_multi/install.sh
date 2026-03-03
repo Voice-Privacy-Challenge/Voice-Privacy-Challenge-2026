@@ -24,21 +24,26 @@ ESPAK_VERSION=1.52.0
 CUDA_VERSION=12.8
 TORCH_VERSION=2.8.0
 
-compute_and_write_hash "anonymization/pipelines/sttts_multi/requirements.txt"
+compute_and_write_hash "anonymization/pipelines/sttts_multi/requirements.txt"  # SHA256: 2fd758ca60d3440c946f63361238daf2bc91714b5f29b052a844e73bdfd5e5de
 trigger_new_install "exp/sttts_multi_models" #"exp/sttts_multi_models .done-*-sttts-multi .done-sttts-multi-requirements" # .done-espeak"
 
 \rm $env_sh 2> /dev/null || true
 touch $env_sh
 
-# Download GAN pre-models only if perform GAN anonymization
-if [ ! -d exp/sttts_multi_models ]; then
-    echo "Download pretrained models of GAN-based speaker anonymization system..."
-    mkdir -p exp/sttts_multi_models
-    wget -q -O exp/sttts_multi_models/embedding_gan.pt https://github.com/DigitalPhonetics/IMS-Toucan/releases/download/v3.0/embedding_gan.pt
-    wget -q -O exp/sttts_multi_models/ToucanTTS_Meta.pt https://github.com/DigitalPhonetics/IMS-Toucan/releases/download/v3.1/ToucanTTS_Meta.pt
-    wget -q -O exp/sttts_multi_models/Vocoder.pt https://github.com/DigitalPhonetics/IMS-Toucan/releases/download/v3.1.1/Vocoder.pt
-    wget -q -O exp/sttts_multi_models/aligner.pt https://github.com/DigitalPhonetics/IMS-Toucan/releases/download/v3.1/aligner.pt
+# Download iso_lookup.json for ToucanTTS language embedding (required by TextFrontend)
+iso_lookup_dir=anonymization/modules/sttts_multi/tts/IMSToucan/Preprocessing/multilinguality
+if [ ! -f $iso_lookup_dir/iso_lookup.json ]; then
+    echo "Download iso_lookup.json for ToucanTTS..."
+    wget -q -O $iso_lookup_dir/iso_lookup.json "https://huggingface.co/Flux9665/ToucanTTS/resolve/main/iso_lookup.json"
 fi
+
+# Download GAN pre-models (each file individually; dir may exist with partial downloads)
+models_dir=exp/sttts_multi_models
+mkdir -p $models_dir
+[ ! -s $models_dir/embedding_gan.pt ] && echo "Download embedding_gan.pt..." && wget -q -O $models_dir/embedding_gan.pt https://github.com/DigitalPhonetics/IMS-Toucan/releases/download/v3.0/embedding_gan.pt
+[ ! -s $models_dir/ToucanTTS_Meta.pt ] && echo "Download ToucanTTS_Meta.pt..." && wget -q -O $models_dir/ToucanTTS_Meta.pt https://github.com/DigitalPhonetics/IMS-Toucan/releases/download/v3.1/ToucanTTS_Meta.pt
+[ ! -s $models_dir/Vocoder.pt ] && echo "Download Vocoder.pt..." && wget -q -O $models_dir/Vocoder.pt https://github.com/DigitalPhonetics/IMS-Toucan/releases/download/v3.1.1/Vocoder.pt
+[ ! -s $models_dir/aligner.pt ] && echo "Download aligner.pt..." && wget -q -O $models_dir/aligner.pt https://github.com/DigitalPhonetics/IMS-Toucan/releases/download/v3.1/aligner.pt
 
 # Deactivate previous venv
 echo "micromamba deactivate" >> $env_sh

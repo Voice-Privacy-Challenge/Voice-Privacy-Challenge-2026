@@ -137,7 +137,12 @@ class SpeakerExtraction:
             logger.info(f'Extract embeddings of {len(missing_utterances)} utterances')
             speaker_embeddings.new = True
             wav_scp = read_kaldi_format(dataset_path / 'wav.scp')
-            spk2gender = read_kaldi_format(dataset_path / 'spk2gender')
+            spk2gender_path = dataset_path / 'spk2gender'
+            if spk2gender_path.exists():
+                spk2gender = read_kaldi_format(spk2gender_path)
+            else:
+                spk2gender = {spk: 'm' for spk in set(utt2spk.values())}
+                logger.debug(f'spk2gender not found, using default for {len(spk2gender)} speakers')
             # sometimes an utterance is skipped during synthesis
             previous_num_missing_utterances = len(missing_utterances)
             missing_utterances = [utt for utt in missing_utterances if utt in wav_scp.keys()]

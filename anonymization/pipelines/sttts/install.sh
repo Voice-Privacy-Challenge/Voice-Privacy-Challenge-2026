@@ -24,7 +24,7 @@ ESPAK_VERSION=1.52.0
 CUDA_VERSION=12.8
 TORCH_VERSION=2.8.0
 
-compute_and_write_hash "anonymization/pipelines/sttts/requirements.txt"
+compute_and_write_hash "anonymization/pipelines/sttts/requirements.txt"  # SHA256: aadd54ddfdcb716eed95640764cfd596ce87b09d8628010b4314a030bd44d001
 trigger_new_install "exp/sttts_models" #"exp/sttts_models .done-*-sttts .done-sttts-requirements" # .done-espeak"
 
 \rm $env_sh 2> /dev/null || true
@@ -163,15 +163,14 @@ if [ ! -f $mark ]; then
   sed -i "58d" src/libespeak-ng/speech.h
   sed -i "59d" src/libespeak-ng/speech.h
 
-  ./configure  --prefix ${venv_dir}
+  ./configure --prefix=${venv_dir}
   make -j $nj src/espeak-ng src/speak-ng
   make -j $nj
 
-  make DESTDIR="$venv_dir" install
-
-  yes | cp -rf ${venv_dir}/usr/local/* ${venv_dir} || true
+  make install
 
   echo "export ESPEAK_DATA_PATH=$venv_dir/share/espeak-ng-data" >> $env_sh
+  echo "export PHONEMIZER_ESPEAK_LIBRARY=$venv_dir/lib/libespeak-ng.so" >> $env_sh
   source ./$env_sh
 
   # espeak-ng --voices

@@ -110,12 +110,38 @@ class SpeakerEmbeddings:
         torch.save(self.vectors, out_dir / f'speaker_vectors.pt')
 
     def get_embedding_for_identifier(self, identifier):
-        idx = self.identifiers2idx[identifier]
-        return self.vectors[int(idx)]
+        idx = self.identifiers2idx.get(identifier)
+        if idx is not None:
+            return self.vectors[int(idx)]
+        if identifier.endswith('.wav'):
+            idx = self.identifiers2idx.get(identifier[:-4])
+        elif not identifier.endswith('.wav'):
+            idx = self.identifiers2idx.get(identifier + '.wav')
+        if idx is not None:
+            return self.vectors[int(idx)]
+        # Speaker ID (e.g. jvs011) with utt-level embeddings keyed by utt_id (e.g. jvs011_BASIC5000_0074)
+        if '_' not in identifier:
+            prefix_keys = [k for k in self.identifiers2idx if str(k).startswith(identifier + '_')]
+            if prefix_keys:
+                indices = [self.identifiers2idx[k] for k in prefix_keys]
+                return torch.stack([self.vectors[int(i)] for i in indices]).mean(dim=0)
+        raise KeyError(identifier)
 
     def get_speaker(self, identifier):
-        idx = self.identifiers2idx[identifier]
-        return self.original_speakers[int(idx)]
+        idx = self.identifiers2idx.get(identifier)
+        if idx is not None:
+            return self.original_speakers[int(idx)]
+        if identifier.endswith('.wav'):
+            idx = self.identifiers2idx.get(identifier[:-4])
+        elif not identifier.endswith('.wav'):
+            idx = self.identifiers2idx.get(identifier + '.wav')
+        if idx is not None:
+            return self.original_speakers[int(idx)]
+        if '_' not in identifier:
+            prefix_keys = [k for k in self.identifiers2idx if str(k).startswith(identifier + '_')]
+            if prefix_keys:
+                return self.original_speakers[self.identifiers2idx[prefix_keys[0]]]
+        raise KeyError(identifier)
 
     def get_utt_list(self):
         return [identifier for identifier, idx in sorted(self.identifiers2idx.items(), key=lambda x: x[1])]

@@ -94,18 +94,30 @@ class ASV:
         test_vectors = []
         test_ids = []
         trials = {}
+        skipped = 0
         # 1462 1462-170142-0000 target
         # 1462 2412-153948-0004 nontarget
         with open(trial_runs_file, 'r') as f:
             for line in f:
                 temp = line.strip().split(' ')
-                if temp[0] not in set(enrol_ids):
-                    enrol_vectors.append(enrol_all_dict.get_embedding_for_identifier(temp[0]))
-                    enrol_ids.append(temp[0])
-                if temp[1] not in set(test_ids):
-                    test_vectors.append(test_all_dict.get_embedding_for_identifier(temp[1]))
-                    test_ids.append(temp[1])
-                trials[(temp[0], temp[1])] = int(temp[2] == 'target')
+                try:
+                    if temp[0] not in set(enrol_ids):
+                        enrol_vectors.append(enrol_all_dict.get_embedding_for_identifier(temp[0]))
+                        enrol_ids.append(temp[0])
+                    if temp[1] not in set(test_ids):
+                        test_vectors.append(test_all_dict.get_embedding_for_identifier(temp[1]))
+                        test_ids.append(temp[1])
+                    trials[(temp[0], temp[1])] = int(temp[2] == 'target')
+                except KeyError as e:
+                    skipped += 1
+                    if skipped <= 5:
+                        logger.warning(f"Skip trial {temp[0]} {temp[1]}: missing embedding ({e})")
+                    continue
+
+        if skipped > 0:
+            logger.warning(f"Skipped {skipped} trials due to missing embeddings (enrol or test). Check enrol/trial dataset match.")
+        if not trials:
+            raise ValueError(f"No valid trials for {enrol_dir} vs {test_dir}. All trials were skipped (missing embeddings).")
 
         enrol_vectors = torch.stack(enrol_vectors)
         test_vectors = torch.stack(test_vectors)

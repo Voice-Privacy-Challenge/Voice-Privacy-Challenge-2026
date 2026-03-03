@@ -1,4 +1,5 @@
 import os
+import shutil
 import warnings
 import random
 import numpy as np
@@ -395,14 +396,19 @@ class SelectionBasedAnonymizationPipeline:
         print(f"Anonymization level: {anon_level}")
 
         current_spk = None
+        suffix = settings.get("anon_suffix", "")
+        n_skip_exist = 0
+    
+
         for utt_id, wav_path in tqdm(data_to_process):
             # Determine speaker ID for caching
             # VPC format is usually spkID-uttID
             spk_id = utt_id.split('-')[0] if '-' in utt_id else utt_id
 
-            # Check if output already exists
+            # When force_compute=False: skip if output already exists
             out_path = out_folder / f"{utt_id}.wav"
             if out_path.exists() and not force_compute:
+                n_skip_exist += 1
                 continue
 
             # Load audio
@@ -423,6 +429,9 @@ class SelectionBasedAnonymizationPipeline:
                 sf.write(out_path, anon_audio, samplerate=self.target_sr)
             except Exception as e:
                 print(f"\nError processing {utt_id}: {e}")
+
+        if n_skip_exist or n_skip_copy:
+            print(f"Skipped: {n_skip_exist} (already exist), {n_skip_copy} (copied from trials_f/m)")
     
     def _select_speakers_enhanced(
         self,

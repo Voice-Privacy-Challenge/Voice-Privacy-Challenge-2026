@@ -2,7 +2,7 @@ data_dir: data
 results_dir: wav
 
 pipeline: nac
-anon_suffix: !ref _<pipeline>
+anon_suffix: _B4
 
 datasets:
   - name: IEMOCAP_dev
@@ -12,11 +12,11 @@ datasets:
   - name: libri_dev
     data: libri_dev
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: libri_test
     data: libri_test
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: train-clean-360
     data: train-clean-360
 

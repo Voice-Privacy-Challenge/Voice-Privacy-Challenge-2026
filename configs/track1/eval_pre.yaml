@@ -13,11 +13,11 @@ datasets:
   - name: libri_dev
     data: libri_dev
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: libri_test
     data: libri_test
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
 
 eval_steps: # all metrics in this list will be computed in the evaluation. Remove entry to skip
   privacy:

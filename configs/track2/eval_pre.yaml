@@ -6,56 +6,42 @@ anon_data_suffix: _mcadams # added to transform data/libri_dev/ to data/libri_de
 results_summary_path: !ref <exp_dir>/results_summary/eval_orig<anon_data_suffix>/results_orig.txt
 
 datasets:
-  - name: ja_dev
-    data: ja_dev
-    enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
-  - name: ja_test
-    data: ja_test
-    enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
-  - name: cn_dev
-    data: cn_dev
-    enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
-  - name: cn_test
-    data: cn_test
-    enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
   - name: en_dev
     data: en_dev
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: en_test
     data: en_test
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: fr_dev
     data: fr_dev
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: fr_test
     data: fr_test
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: es_dev
     data: es_dev
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: es_test
     data: es_test
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: de_dev
     data: de_dev
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
+    trials: [_trials_mixed]
   - name: de_test
     data: de_test
     enrolls: [_enrolls]
-    trials: [_trials_f, _trials_m]
-  - name: emodata_track2
-    data: emodata_track2
+    trials: [_trials_mixed]
+  - name: emodata_track2_dev
+    data: emodata_track2_dev
+  - name: emodata_track2_test
+    data: emodata_track2_test
 
 eval_steps:  # all metrics in this list will be computed in the evaluation. Remove entry to skip
   privacy:
@@ -66,7 +52,8 @@ eval_steps:  # all metrics in this list will be computed in the evaluation. Remo
 
 privacy:
   asv:
-    dataset_name: [en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test, cn_dev, cn_test, ja_dev, ja_test]
+    dataset_name: [en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test]
+
     model_name: asv_ssl
     model_type: ecapa_ssl
 
@@ -82,7 +69,7 @@ privacy:
 
 utility:
   asr:
-    dataset_name: [en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test, cn_dev, cn_test, ja_dev, ja_test]
+    dataset_name: [en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test]
     model_name: openai/whisper-large-v3 # name for ASR model, asr_pre_transformer_transformerlm + EncoderDecoderASR or asr_pre_ctc_wav2vec2 + EncoderASR
 
     evaluation:
@@ -93,7 +80,7 @@ utility:
       eval_batchsize: 8 # Requires < 12Gib for the 'asr_pre_ctc_wav2vec2' model
       results_dir: !ref <exp_dir>/<utility[asr][model_name]>
   ser:
-    dataset_name: [emodata_track2]
+    dataset_name: [emodata_track2_dev, emodata_track2_test]
     model_name: ser_emotion2vec
     model_type: ser_ssl
 

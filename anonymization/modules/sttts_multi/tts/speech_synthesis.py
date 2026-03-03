@@ -1,4 +1,5 @@
 from tqdm import tqdm
+import shutil
 import soundfile
 import time
 from torch.multiprocessing import Pool, set_start_method
@@ -48,12 +49,16 @@ class SpeechSynthesis:
         dataset_results_dir = self.results_dir / dataset_name if self.save_output else ''
         wavs = {}
 
-        if dataset_results_dir.exists() and not self.force_compute:
-            already_synthesized_utts = {wav_file.stem: str(wav_file.absolute())
-                                        for wav_file in dataset_results_dir.glob('*.wav')
-                                        if wav_file.stem in texts.utterances}
+        # Collect already-synthesized utterances: from current dir, or from trials_f/trials_m when processing trials_mixed
+        already_synthesized_utts = {}
+        if self.save_output and not self.force_compute:
+            if dataset_results_dir.exists():
+                for wav_file in dataset_results_dir.glob('*.wav'):
+                    if wav_file.stem in texts.utterances:
+                        already_synthesized_utts[wav_file.stem] = str(wav_file.absolute())
+            
 
-            if len(already_synthesized_utts):
+        if already_synthesized_utts:
                 logger.info(f'No synthesis necessary for {len(already_synthesized_utts)} of {len(texts)} utterances...')
                 texts.remove_instances(list(already_synthesized_utts.keys()))
                 if self.save_output:
