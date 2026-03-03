@@ -1,5 +1,5 @@
 #!/bin/bash
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=1
 set -e
 
 cd "$(dirname "$0")"
@@ -44,7 +44,14 @@ python run_anonymization.py --config ${anon_config} ${force_compute}
 python run_evaluation.py --config $(dirname ${anon_config})/eval_pre.yaml --overwrite "${eval_overwrite}" ${force_compute}
 
 # Merge results
-results_summary_path_orig=$(python3 -c "from hyperpyyaml import load_hyperpyyaml; f = open('$(dirname ${anon_config})/eval_pre.yaml'); print(load_hyperpyyaml(f, ${eval_overwrite}).get('results_summary_path', ''))")
+config_dir=$(dirname ${anon_config})
+results_summary_path_orig=$(eval_overwrite="${eval_overwrite}" config_dir="${config_dir}" python3 -c "
+import os, json
+from hyperpyyaml import load_hyperpyyaml
+overwrite = json.loads(os.environ.get('eval_overwrite', '{}'))
+f = open(os.environ['config_dir'] + '/eval_pre.yaml')
+print(load_hyperpyyaml(f, overwrite).get('results_summary_path', ''))
+")
 
 
 results_exp=exp/results_summary/$track
