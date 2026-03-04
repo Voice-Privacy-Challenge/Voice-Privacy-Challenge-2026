@@ -9,22 +9,6 @@ datasets:
     data: emodata_track2_dev
   - name: emodata_track2_test
     data: emodata_track2_test
-  - name: ja_dev
-    data: ja_dev
-    enrolls: [_enrolls]
-    trials: [_trials_mixed]
-  - name: ja_test
-    data: ja_test
-    enrolls: [_enrolls]
-    trials: [_trials_mixed]
-  - name: cn_dev
-    data: cn_dev
-    enrolls: [_enrolls]
-    trials: [_trials_mixed]
-  - name: cn_test
-    data: cn_test
-    enrolls: [_enrolls]
-    trials: [_trials_mixed]
   - name: en_dev
     data: en_dev
     enrolls: [_enrolls]
@@ -89,7 +73,7 @@ modules:
     extraction_results_path: !ref <intermediate_dir>/original_speaker_embeddings/<modules[speaker_embeddings][vec_type]>
     anon_results_path: !ref <intermediate_dir>/anon_speaker_embeddings/<modules[speaker_embeddings][vec_type]>
     anon_level_spk: []
-    anon_level_utt: [emodata_track2_dev, emodata_track2_test, en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test, cn_dev, cn_test, ja_dev, ja_test]
+    anon_level_utt: [emodata_track2_dev, emodata_track2_test, en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test]
 
   prosody:
     extractor_type: ims
