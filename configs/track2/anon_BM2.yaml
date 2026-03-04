@@ -68,7 +68,7 @@ modules:
       method: gan
       vectors_file: !ref <models_dir>/embedding_gan_generated_vectors.pt
       gan_model_path: !ref <models_dir>/embedding_gan.pt
-      num_sampled: 5000
+      num_sampled: 50000
       sim_threshold: 0.7
     extraction_results_path: !ref <intermediate_dir>/original_speaker_embeddings/<modules[speaker_embeddings][vec_type]>
     anon_results_path: !ref <intermediate_dir>/anon_speaker_embeddings/<modules[speaker_embeddings][vec_type]>
