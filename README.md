@@ -97,11 +97,7 @@ python run_evaluation.py --config configs/track1/eval_post.yaml --overwrite "{\"
 
 3. get the final results for ranking
 ```sh
-results_summary_path_orig=exp/results_summary/track1/eval_orig${anon_data_suffix}/results_orig.txt # the same value as $results_summary_path in configs/track1/eval_pre.yaml
-results_summary_path_anon=exp/results_summary/track1/eval_anon${anon_data_suffix}/results_anon.txt # the same value as $results_summary_path in configs/track1/eval_post.yaml
-results_exp=exp/results_summary
-{ cat "${results_summary_path_orig}"; echo; cat "${results_summary_path_anon}"; } > "${results_exp}/result_for_rank${anon_data_suffix}"
-zip ${results_exp}/result_for_submission${anon_data_suffix}.zip -r exp/asr/*${anon_data_suffix} exp/asr/*${anon_data_suffix}.csv exp/ser/*${anon_data_suffix}.csv exp/results_summary/*${anon_data_suffix}* exp/asv_orig/*${anon_data_suffix} exp/asv_orig/*${anon_data_suffix}.csv exp/asv_anon${anon_data_suffix}
+TODO
 ```
 
 > All of the above steps are automated in [02_run_track1.sh](./02_run_track1.sh).
