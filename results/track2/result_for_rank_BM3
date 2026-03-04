@@ -1,0 +1,39 @@
+---- Time: 03-03-26_03:05 ----
+
+---- SER results ----
+   dataset split       ser     UAR ACC_hap ACC_neu ACC_ang ACC_sad
+                              mean    mean    mean    mean    mean
+0  emodata   dev      anon  26.242  14.228  77.617   4.428   8.696
+1  emodata   dev  original  72.087  75.610  82.310  72.325  58.103
+2  emodata  test      anon  24.843  11.538  71.489   5.660  10.684
+3  emodata  test  original  78.904  68.077  90.638  83.396  73.504
+
+---- ASV_eval results ----
+   dataset split gender enrollment trial     EER
+26      de   dev  mixed       anon  anon  48.892
+35      de  test  mixed       anon  anon  48.334
+8       en   dev  mixed       anon  anon  37.454
+17      en  test  mixed       anon  anon  37.555
+62      es   dev  mixed       anon  anon  48.296
+71      es  test  mixed       anon  anon  49.035
+44      fr   dev  mixed       anon  anon  47.677
+53      fr  test  mixed       anon  anon  48.539
+
+---- ASR results ----
+   dataset split       asr     WER
+2       de   dev  original   5.881
+10      de   dev      anon  31.862
+3       de  test  original   5.972
+11      de  test      anon  32.313
+0       en   dev  original   5.551
+8       en   dev      anon  14.128
+1       en  test  original   6.570
+9       en  test      anon  15.105
+6       es   dev  original   4.629
+14      es   dev      anon  17.526
+7       es  test  original   4.440
+15      es  test      anon  16.765
+4       fr   dev  original   6.673
+12      fr   dev      anon  25.796
+5       fr  test  original   5.837
+13      fr  test      anon  23.684
