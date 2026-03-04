@@ -2,7 +2,7 @@ data_dir: data
 results_dir: data # output example ./data/mls_german_ssl
 
 pipeline: ssl
-anon_suffix: !ref _<pipeline>
+anon_suffix: _BM1
 
 datasets:
   - name: train_english
