@@ -1,0 +1,85 @@
+data_dir: data
+results_dir: data 
+
+pipeline: sttts_multi
+anon_suffix: !ref _BM3
+
+datasets:
+  - name: emodata_track2_dev
+    data: emodata_track2_dev
+  - name: emodata_track2_test
+    data: emodata_track2_test
+  - name: en_dev
+    data: en_dev
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: en_test
+    data: en_test
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: fr_dev
+    data: fr_dev
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: fr_test
+    data: fr_test
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: es_dev
+    data: es_dev
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: es_test
+    data: es_test
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: de_dev
+    data: de_dev
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: de_test
+    data: de_test
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+
+models_dir:  exp/sttts_multi_models
+save_intermediate: true
+intermediate_dir: !ref exp/anon_pipeline_<pipeline>
+# For faster inferance, download precomputed prosody/speaker_embedding/phn_transcript (libri only)
+download_precomputed_intermediate_repr: false  #true
+
+modules:
+  asr:
+    recognizer: whisper
+    force_compute_recognition: false
+    model_path: !ref <models_dir>/whisper-large-v3
+    utt_start_token: ""
+    utt_end_token: ""
+    gold_langs: true
+    results_path: !ref <intermediate_dir>/transcription/whisper-large-v3
+
+  speaker_embeddings:
+    anonymizer: ims
+    force_compute_extraction: false
+    force_compute_anonymization: false
+    vec_type: ecapa
+    emb_model_path: !ref <models_dir>/spkrec-ecapa-voxceleb
+    anon_settings:
+      method: gan
+      vectors_file: !ref <models_dir>/embedding_gan_generated_vectors.pt
+      gan_model_path: !ref <models_dir>/embedding_gan.pt
+      num_sampled: 50000
+      sim_threshold: 0.7
+    extraction_results_path: !ref <intermediate_dir>/original_speaker_embeddings/<modules[speaker_embeddings][vec_type]>
+    anon_results_path: !ref <intermediate_dir>/anon_speaker_embeddings/<modules[speaker_embeddings][vec_type]>
+    anon_level_spk: []
+    anon_level_utt: [emodata_track2_dev, emodata_track2_test, en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test]
+
+
+  tts:
+    synthesizer: ims
+    fastspeech_path: !ref <models_dir>/ToucanTTS_Meta.pt
+    hifigan_path: !ref <models_dir>/Vocoder.pt
+    embeddings_path: !ref <models_dir>/spkrec-ecapa-voxceleb
+    output_sr: 16000
+    results_path: !ref <intermediate_dir>/anon_speech/ims_sttts_multi_no_pc
