@@ -4,7 +4,7 @@ Please visit the [challenge website](https://www.voiceprivacychallenge.org/) for
 
 ## Install
 
-1. `git clone https://github.com/xiaoxiaomiao323/vpc2026-dev.git`
+1. `git clone https://github.com/Voice-Privacy-Challenge/Voice-Privacy-Challenge-2026.git`
 2. `./00_install.sh`
 3. `source env.sh`
 
