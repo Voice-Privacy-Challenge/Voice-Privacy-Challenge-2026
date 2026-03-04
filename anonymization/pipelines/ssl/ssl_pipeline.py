@@ -35,8 +35,8 @@ class SSLPipeline(Pipeline):
 
         self.pipeline = SelectionBasedAnonymizationPipeline(
             device='cuda' if torch.cuda.is_available() else 'cpu',
-            default_world_size=self.modules_config.get('world_size', 1),
-            default_region_size=self.modules_config.get('region_size', 1),
+            default_world_size=self.modules_config.get('world_size', 50),
+            default_region_size=self.modules_config.get('region_size', 10),
             default_flag_proximity=self.modules_config.get('flag_proximity', 'random'),
             default_flag_cross_gender=self.modules_config.get('flag_cross_gender', False),
             default_gender_pool=self.modules_config.get('gender_pool', False),
