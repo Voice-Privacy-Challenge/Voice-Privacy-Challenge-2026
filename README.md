@@ -124,7 +124,107 @@ Please see the [RESULTS folder](./results/track1) for the provided anonymization
 
 2. Run Track 2 (lazy-informed EER, ASR, UAR): ```bash 02_run_track2.sh ```
 
-3. Run Track 2 post evaluation (semi-informed EER):```bash 02_run_track2_post.sh```
+3. Run Track 2 post to generate anonymized data:```bash 02_run_track2_post.sh```
+
+## Anonymization and Evaluation
+There are two options:
+1. Run anonymization and evaluation: `./02_run_track2.sh configs/track2/anon_BM1.yaml`.  
+    For each anonymization baseline, there is a corresponding config file:
+    -  #### [Anonymization using self-supervised learning](https://arxiv.org/abs/2203.14834): **BM1**
+         [`configs/track2/anon_BM1.yaml`](configs/track2/anon_BM1.yaml)  A system based on content, prosody, modified speaker embedding representations and speech synthesis  (default).
+
+    -  #### [Anonymization using phonetic transcriptions and GAN)](https://arxiv.org/abs/2407.02937): **BM2 and BM3**
+         [`configs/track2/anon_BM2.yaml`](configs/track1/anon_sttts.yaml)  A system based on unmodified phone sequence, modified prosody, modified speaker embedding representations and speech synthesis.
+
+      
+2. Run anonymization and evaluation separately in two steps:
+
+#### Step 1: Anonymization
+```sh
+python run_anonymization.py --config configs/track2/anon_BM1.yaml  # anonymization time around 9 hours for BM1.
+
+```
+The anonymized audios will be saved in `$data_dir=data` into 18(4*4+2) folders corresponding to datasets.
+The names of the created dataset folders for anonymized audio files are appended with the suffix, i.e. `$anon_data_suffix=_BM1`
+
+```log
+
+data/en_dev_enrolls${anon_data_suffix}/wav/*wav
+data/en_dev_trials_mixed${anon_data_suffix}/wav/*wav
+data/en_test_enrolls${anon_data_suffix}/wav/*wav
+data/en_test_trials_mixed${anon_data_suffix}/wav/*wav
+
+data/es_dev_enrolls${anon_data_suffix}/wav/*wav
+data/es_dev_trials_mixed${anon_data_suffix}/wav/*wav
+data/es_test_enrolls${anon_data_suffix}/wav/*wav
+data/es_test_trials_mixed${anon_data_suffix}/wav/*wav
+
+data/fr_dev_enrolls${anon_data_suffix}/wav/*wav
+data/fr_dev_trials_mixed${anon_data_suffix}/wav/*wav
+data/fr_test_enrolls${anon_data_suffix}/wav/*wav
+data/fr_test_trials_mixed${anon_data_suffix}/wav/*wav
+
+data/de_dev_enrolls${anon_data_suffix}/wav/*wav
+data/de_dev_trials_mixed${anon_data_suffix}/wav/*wav
+data/de_test_enrolls${anon_data_suffix}/wav/*wav
+data/de_test_trials_mixed${anon_data_suffix}/wav/*wav
+
+data/emodata_track2_dev${anon_data_suffix}/wav/*wav
+data/emodata_track2_test${anon_data_suffix}/wav/*wav
+
+```
+
+For the next evaluation step, you should replicate the corresponding directory structure when developing your anonymization system.  
+
+#### Step 2: Evaluation
+Evaluation metrics include:
+- Privacy: Equal error rate (EER) for ignorant, lazy-informed (only results from the lazy-informed attacker will be submitted) 
+- Utility:
+  - Word Error Rate (WER) by an automatic speech recognition (ASR) model (trained on LibriSpeech)
+  - Unweighted Average Recall (UAR) by a speech emotion recognition (SER) model (trained on IEMOCAP).
+
+> All of the above steps are automated in [02_run_track2.sh](./02_run_track2.sh).
+
+#### Step 3: anonymized data generation for ranking
+
+```sh
+02_run_track2_post.sh  # you can only run once after you determine your anonymization systems 
+
+```
+The anonymized audios will be saved in `$data_dir=data` into 12 folders corresponding to datasets.
+The names of the created dataset folders for anonymized audio files are appended with the suffix, i.e. `$anon_data_suffix=_mcadams`
+
+```log
+data/
+
+data/ja_dev_enrolls${anon_data_suffix}/wav/*wav
+data/ja_dev_trials_mixed${anon_data_suffix}/wav/*wav
+data/ja_test_enrolls${anon_data_suffix}/wav/*wav
+data/ja_test_trials_mixed${anon_data_suffix}/wav/*wav
+
+data/cn_dev_enrolls${anon_data_suffix}/wav/*wav
+data/cn_dev_trials_mixed${anon_data_suffix}/wav/*wav
+data/cn_test_enrolls${anon_data_suffix}/wav/*wav
+data/cn_test_trials_mixed${anon_data_suffix}/wav/*wav
+
+data/train_english${anon_data_suffix}/wav/*wav
+data/train_german${anon_data_suffix}/wav/*wav
+data/train_french${anon_data_suffix}/wav/*wav
+data/train_spanish${anon_data_suffix}/wav/*wav
+
+```
+
+## Results
+#### Note, that WER results are computed on the trials part
+The result file with all the metrics and all datasets for submission will be generated in:
+* Summary results: `./exp/results_summary/track2/result_for_rank$anon_data_suffix`
+
+Please see the [RESULTS folder](./results/track2) for the provided anonymization baselines:
+
+* [Results BM1](./results/track2/result_for_rank_BM1)
+* [Results BM2](./results/track2/result_for_rank_BM2)
+* [Results BM3](./results/track2/result_for_rank_BM3)
+
 
 
 </details>
