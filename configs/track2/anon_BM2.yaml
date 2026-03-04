@@ -1,5 +1,5 @@
 data_dir: data
-results_dir: data # output example ./data/mls_german_ssl
+results_dir: data # output example ./data/
 
 pipeline: sttts_multi
 anon_suffix: !ref _BM2
