@@ -15,7 +15,7 @@ if [ -n "$1" ]; then
 else
   anon_config=configs/$track/anon_BM1.yaml # BM1 anonymization costs 9 hours
   #anon_config=configs/$track/anon_BM2.yaml # BM2 anonymization costs over one day
-  #anon_config=configs/$track/anon_BM2.yaml # BM3 anonymization costs over one day 
+  #anon_config=configs/$track/anon_BM3.yaml # BM3 anonymization costs over one day 
 fi
 echo "Using config: $anon_config"
 
