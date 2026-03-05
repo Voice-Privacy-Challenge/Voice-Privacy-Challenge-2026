@@ -13,8 +13,10 @@ track=track2 #track1, track2
 if [ -n "$1" ]; then
   anon_config=$1
 else
-  #anon_config=configs/$track/anon_post_sttts.yaml
   anon_config=configs/$track/anon_post_BM1.yaml
+  #anon_config=configs/$track/anon_post_BM2.yaml
+  #anon_config=configs/$track/anon_post_BM3.yaml
+
 fi
 echo "Using config: $anon_config"
 
