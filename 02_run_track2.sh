@@ -64,3 +64,10 @@ cp "${results_summary_path_orig}" "${results_exp}/result_for_rank${anon_suffix}"
 [ -f "exp/ser_emotion2vec/results${anon_suffix}.csv" ] && cp "exp/ser_emotion2vec/results${anon_suffix}.csv" "${results_exp}/ser_results${anon_suffix}.csv"
 [ -f "exp/asv_ssl/results${anon_suffix}.csv" ] && cp "exp/asv_ssl/results${anon_suffix}.csv" "${results_exp}/asv_results${anon_suffix}.csv"
 # Zip for submission (result_for_rank + CSVs only; no models)
+zip -r ${results_exp}/result_for_submission${anon_suffix}.zip \
+  "${results_exp}/result_for_rank${anon_suffix}" \
+  exp/openai/whisper-large-v3/*${anon_suffix}  \
+  exp/openai/whisper-large-v3/results*${anon_suffix}.csv \
+  exp/ser_emotion2vec/results*${anon_suffix}.csv \
+  exp/ser_emotion2vec/results_folds*${anon_suffix}.csv \
+  exp/asv_ssl/results*${anon_suffix}.csv 2>/dev/null || true
