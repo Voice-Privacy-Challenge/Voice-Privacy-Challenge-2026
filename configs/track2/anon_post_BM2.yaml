@@ -61,7 +61,7 @@ modules:
     extraction_results_path: !ref <intermediate_dir>/original_speaker_embeddings/<modules[speaker_embeddings][vec_type]>
     anon_results_path: !ref <intermediate_dir>/anon_speaker_embeddings/<modules[speaker_embeddings][vec_type]>
     anon_level_spk: []
-    anon_level_utt: [emodata_track2_dev, emodata_track2_test, en_dev, en_test, de_dev, de_test, fr_dev, fr_test, es_dev, es_test]
+    anon_level_utt: [train_english, train_german, train_spanish, train_french, ja_dev, ja_test, cn_dev, cn_test]
 
   prosody:
     extractor_type: ims
