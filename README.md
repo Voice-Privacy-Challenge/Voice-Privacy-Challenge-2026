@@ -230,8 +230,25 @@ Please see the [RESULTS folder](./results/track2) for the provided anonymization
 </details>
 
 
+<details>
+<summary><b>Runtime Summary</b></summary>
+#### Track 1
 
+| Script | Description | B2 | B3 | B4 | B5 |
+|--------|-------------|----|----|----|----|
+| `run_anonymization.py` | Generate anonymized audio (LibriSpeech dev+test, IEMOCAP dev+test, LibriSpeech-train-clean-360) | ~2h | ~13h | — | ~1h |
+| `run_evaluation.py` (eval_pre.yaml) | ASR/ASV/SER on LibriSpeech dev+test & IEMOCAP dev+test using pretrained models | | | | |
+| `run_evaluation.py` (eval_post.yaml) | Train post ASV using anonymized LibriSpeech-360h, then evaluate on LibriSpeech dev+test | | | | |
 
+#### Track 2
+
+| Script | Description | BM1 | BM2 | BM3 |
+|--------|-------------|-----|-----|-----|
+| `run_anonymization.py` | Generate anonymized audio (multilingual dev+test, emodata\_track2) | ~9h | >1 day | >1 day |
+| `run_evaluation.py` (eval_pre.yaml) | ASR (Whisper large-v3), ASV (asv\_ssl), SER (emotion2vec) on multilingual dev+test & emodata\_track2 | ~1.5h | | |
+| `run_anonymization.py` (anon\_post\_*.yaml) | Generate anonymized audio on multilingual training set (for semi-informed attacker) | | | |
+
+</details>
 
 
 
