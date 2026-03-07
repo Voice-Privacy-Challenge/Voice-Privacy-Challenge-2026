@@ -122,7 +122,7 @@ Please see the [RESULTS folder](./results/track1) for the provided anonymization
     
 1. Download data and models: ```bash 01_download_data_model_track2.sh```
 
-2. Run Track 2 (lazy-informed EER, ASR, UAR): ```bash 02_run_track2.sh ```
+2. Run Track 2 (lazy-informed EER, WER, UAR): ```bash 02_run_track2.sh ```
 
 3. Run Track 2 post to generate anonymized data:```bash 02_run_track2_post.sh```
 
@@ -272,7 +272,7 @@ VPC_DROPBOX_KEY=XXX VPC_DROPBOX_SECRET=YYY VPC_DROPBOX_REFRESHTOKEN=ZZZ VPC_TEAM
 ## General information
 
 #### Evaluation plan
-For more details about the baseline and data, please see The VoicePrivacy 2024 Challenge Evaluation Plan
+For more details about the baseline and data, please see The VoicePrivacy 2026 Challenge Evaluation Plan
 
 #### Training data
 
