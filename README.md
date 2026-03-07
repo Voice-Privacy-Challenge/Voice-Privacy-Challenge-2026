@@ -232,6 +232,7 @@ Please see the [RESULTS folder](./results/track2) for the provided anonymization
 
 <details>
 <summary><b>Runtime Summary</b></summary>
+
 #### Track 1
 
 | Script | Description | B2 | B3 | B4 | B5 |
