@@ -240,7 +240,7 @@ Please see the [RESULTS folder](./results/track2) for the provided anonymization
 
 | Script | Description | B2 | B3 | B4 | B5 |
 |--------|-------------|----|----|----|----|
-| `run_anonymization.py` | Generate anonymized audio (LibriSpeech dev+test, IEMOCAP dev+test, LibriSpeech-train-clean-360) | ~2h | ~13h | — | ~1h |
+| `run_anonymization.py` | Generate anonymized audio (LibriSpeech dev+test, IEMOCAP dev+test, LibriSpeech-train-clean-360) | ~2h | ~13h | ~72h | ~1h |
 | `run_evaluation.py` (eval_pre.yaml) | ASR/ASV/SER on LibriSpeech dev+test & IEMOCAP dev+test using pretrained models | | | | |
 | `run_evaluation.py` (eval_post.yaml) | Train post ASV using anonymized LibriSpeech-360h, then evaluate on LibriSpeech dev+test | | | | |
 
