@@ -250,7 +250,7 @@ Please see the [RESULTS folder](./results/track2) for the provided anonymization
 |--------|-------------|-----|-----|-----|
 | `run_anonymization.py` | Generate anonymized audio (multilingual dev+test, emodata\_track2) | ~9h | >1 day | >1 day |
 | `run_evaluation.py` (eval_pre.yaml) | ASR (Whisper large-v3), ASV (asv\_ssl), SER (emotion2vec) on multilingual dev+test & emodata\_track2 | ~1.5h | | |
-| `run_anonymization.py` (anon\_post\_*.yaml) | Generate anonymized audio on multilingual training set (for semi-informed attacker) | | | |
+| `run_anonymization.py` (anon\_post\_*.yaml) | Generate anonymized audio on multilingual training set (for semi-informed attacker) | ~11h| | |
 
 </details>
 
