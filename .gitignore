@@ -173,7 +173,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
+env_sttts_multi.sh
 # Spyder project settings
 .spyderproject
 .spyproject
