@@ -249,7 +249,7 @@ Please see the [RESULTS folder](./results/track2) for the provided anonymization
 | Script | Description | BM1 | BM2 | BM3 |
 |--------|-------------|-----|-----|-----|
 | `run_anonymization.py` | Generate anonymized audio (multilingual dev+test, emodata\_track2) | ~9h | >1 day | >1 day |
-| `run_evaluation.py` (eval_pre.yaml) | ASR (Whisper large-v3), ASV (asv\_ssl), SER (emotion2vec) on multilingual dev+test & emodata\_track2 | ori-asr-3.5h, anon-asr-3.5h | | |
+| `run_evaluation.py` (eval_pre.yaml) | ASR (Whisper large-v3), ASV (asv\_ssl), SER (emotion2vec) on multilingual dev+test & emodata\_track2 | ori-asr-3.5h, anon-asr-3.5h | asv-0.5h | |
 | `run_anonymization.py` (anon\_post\_*.yaml) | Generate anonymized audio on multilingual training set (for semi-informed attacker) | ~11h|~22h | |
 | `run_evaluation.py` (eval\_post\_en.yaml) | Train semi-informed ASV using anonymized MLS-en data, then evaluate on MLS-en-dev+test | 50min/eps*4| | |
 | `run_evaluation.py` (eval\_post\_de.yaml) | Train semi-informed ASV using anonymized MLS-de data, then evaluate on MLS-de-dev+test | 33min/eps*10| | |
