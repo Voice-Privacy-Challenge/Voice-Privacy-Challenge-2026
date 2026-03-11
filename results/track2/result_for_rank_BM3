@@ -1,4 +1,4 @@
----- Time: 03-03-26_03:05 ----
+---- Time: 10-03-26_23:06 ----
 
 ---- SER results ----
    dataset split       ser     UAR ACC_hap ACC_neu ACC_ang ACC_sad
@@ -10,30 +10,59 @@
 
 ---- ASV_eval results ----
    dataset split gender enrollment trial     EER
-26      de   dev  mixed       anon  anon  48.892
-35      de  test  mixed       anon  anon  48.334
-8       en   dev  mixed       anon  anon  37.454
-17      en  test  mixed       anon  anon  37.555
-62      es   dev  mixed       anon  anon  48.296
-71      es  test  mixed       anon  anon  49.035
-44      fr   dev  mixed       anon  anon  47.677
-53      fr  test  mixed       anon  anon  48.539
+8       de   dev  mixed       anon  anon  48.892
+11      de  test  mixed       anon  anon  48.334
+2       en   dev  mixed       anon  anon  37.454
+5       en  test  mixed       anon  anon  37.555
+20      es   dev  mixed       anon  anon  48.296
+23      es  test  mixed       anon  anon  49.035
+14      fr   dev  mixed       anon  anon  47.677
+17      fr  test  mixed       anon  anon  48.539
 
 ---- ASR results ----
    dataset split       asr     WER
-2       de   dev  original   5.881
-10      de   dev      anon  31.862
-3       de  test  original   5.972
-11      de  test      anon  32.313
-0       en   dev  original   5.551
-8       en   dev      anon  14.128
-1       en  test  original   6.570
-9       en  test      anon  15.105
-6       es   dev  original   4.629
-14      es   dev      anon  17.526
-7       es  test  original   4.440
-15      es  test      anon  16.765
-4       fr   dev  original   6.673
-12      fr   dev      anon  25.796
-5       fr  test  original   5.837
-13      fr  test      anon  23.684
+2       de   dev  original   5.717
+10      de   dev      anon  30.890
+3       de  test  original   5.884
+11      de  test      anon  31.339
+0       en   dev  original   5.296
+8       en   dev      anon  12.648
+1       en  test  original   6.279
+9       en  test      anon  13.612
+6       es   dev  original   4.439
+14      es   dev      anon  16.885
+7       es  test  original   4.140
+15      es  test      anon  16.339
+4       fr   dev  original   6.400
+12      fr   dev      anon  24.815
+5       fr  test  original   5.665
+13      fr  test      anon  22.465
+
+---- Time: 10-03-26_23:45 ----
+
+---- ASV_eval^anon results ----
+  dataset split gender enrollment trial     EER
+2      en   dev  mixed       anon  anon  23.693
+5      en  test  mixed       anon  anon  22.694
+
+---- Time: 11-03-26_02:42 ----
+
+---- ASV_eval^anon results ----
+  dataset split gender enrollment trial     EER
+2      de   dev  mixed       anon  anon  47.189
+5      de  test  mixed       anon  anon  47.263
+
+---- Time: 11-03-26_04:09 ----
+
+---- ASV_eval^anon results ----
+  dataset split gender enrollment trial     EER
+2      es   dev  mixed       anon  anon  46.122
+5      es  test  mixed       anon  anon  45.663
+
+---- Time: 11-03-26_05:58 ----
+
+---- ASV_eval^anon results ----
+  dataset split gender enrollment trial     EER
+2      fr   dev  mixed       anon  anon  46.653
+5      fr  test  mixed       anon  anon  46.535
+
