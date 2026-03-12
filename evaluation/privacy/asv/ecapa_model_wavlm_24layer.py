@@ -301,6 +301,8 @@ class ECAPA_TDNN_test(torch.nn.Module):
         """
         # Minimize transpose for efficiency
         # breakpoint()
+        if features is not None:
+            features = features.permute(1, 2, 0, 3)
         features = self.weighted_sum(features)
         x = x.transpose(1, 2)
         features = features.transpose(0, 1)

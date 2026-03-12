@@ -90,13 +90,19 @@ for i, batch in enumerate(dl, 1):
             utt_id, path, basename, proxy_speaker = single_item[0]
             print(f'[{i}/{len_dl}] {device}\t| {utt_id}\t| {proxy_speaker}')
 
-            with torch.no_grad():
-                anon_wav = anonymizer(path, target_voice_id=proxy_speaker)
-
             # we save the output in wav regardless of what the input format was
             basename_file, _ = os.path.splitext(basename)
             new_basename = f'{basename_file}.wav'
             out_path = os.path.join(args.output_folder, new_basename)
+
+            if os.path.exists(out_path):
+                print(f'[{i}/{len_dl}] {device}\t| {utt_id}\t| {proxy_speaker}\t| Already exists. Skipping.')
+                continue
+
+            with torch.no_grad():
+                anon_wav = anonymizer(path, target_voice_id=proxy_speaker)
+
+            
             if args.target_rate is None:
                 sf.write(out_path, anon_wav, samplerate=anonymizer.sample_rate)
             else:
@@ -104,3 +110,8 @@ for i, batch in enumerate(dl, 1):
                 sf.write(out_path, anon_wav, samplerate=args.target_rate)
         else:
             print(f'[{i}/{len_dl}] {device}\t| Received item {single_item}, this is probably the last batch. Skipping.')
+
+print(f'({device}) Inference finished. Waiting for all processes to synchronize...')
+distributed_state.wait_for_everyone()  # this thing was suggested by gemini, fuck knows if it actually works
+print(f'({device}) Exiting inference.')
+

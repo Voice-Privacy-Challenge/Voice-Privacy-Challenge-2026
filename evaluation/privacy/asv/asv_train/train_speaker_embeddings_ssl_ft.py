@@ -115,6 +115,7 @@ class WavLMFeatureExtractor:
             )
         layer_reps = [x for x, _ in final_features[1][1:]] 
         layer_reps = torch.stack(layer_reps, dim=0)
+        layer_reps = layer_reps.permute(2, 0, 1, 3)
         del final_features, layer_results_list, padded_batch,audio_inputs
         return layer_reps
 
