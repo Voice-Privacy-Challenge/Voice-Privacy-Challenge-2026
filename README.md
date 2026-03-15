@@ -95,10 +95,6 @@ python run_evaluation.py --config configs/track1/eval_pre.yaml --overwrite "{\"a
 python run_evaluation.py --config configs/track1/eval_post.yaml --overwrite "{\"anon_data_suffix\": \"$anon_data_suffix\"}" --force_compute True
 ```
 
-3. get the final results for ranking
-```sh
-TODO
-```
 
 > All of the above steps are automated in [02_run_track1.sh](./02_run_track1.sh).
 
@@ -143,10 +139,10 @@ There are two options:
 
 #### Step 1: Anonymization
 ```sh
-python run_anonymization.py --config configs/track2/anon_BM1.yaml  # anonymization time around 9 hours for BM1.
+python run_anonymization.py --config configs/track2/anon_BM1.yaml  
 
 ```
-The anonymized audios will be saved in `$data_dir=data` into 18(4*4+2) folders corresponding to datasets.
+The anonymized audios will be saved in `$data_dir=data` into 30 folders corresponding to datasets.
 The names of the created dataset folders for anonymized audio files are appended with the suffix, i.e. `$anon_data_suffix=_BM1`
 
 ```log
@@ -174,47 +170,40 @@ data/de_test_trials_mixed${anon_data_suffix}/wav/*wav
 data/emodata_track2_dev${anon_data_suffix}/wav/*wav
 data/emodata_track2_test${anon_data_suffix}/wav/*wav
 
-```
-
-For the next evaluation step, you should replicate the corresponding directory structure when developing your anonymization system.  
-
-#### Step 2: Evaluation
-Evaluation metrics include:
-- Privacy: Equal error rate (EER) for ignorant, lazy-informed (only results from the lazy-informed attacker will be submitted) 
-- Utility:
-  - Word Error Rate (WER) by an automatic speech recognition (ASR) model (trained on LibriSpeech)
-  - Unweighted Average Recall (UAR) by a speech emotion recognition (SER) model (trained on IEMOCAP).
-
-> All of the above steps are automated in [02_run_track2.sh](./02_run_track2.sh).
-
-#### Step 3: anonymized data generation for ranking
-
-```sh
-02_run_track2_post.sh  # you can only run once after you determine your anonymization systems 
-
-```
-The anonymized audios will be saved in `$data_dir=data` into 12 folders corresponding to datasets.
-The names of the created dataset folders for anonymized audio files are appended with the suffix, i.e. `$anon_data_suffix=_mcadams`
-
-```log
-data/
-
-data/ja_dev_enrolls${anon_data_suffix}/wav/*wav
-data/ja_dev_trials_mixed${anon_data_suffix}/wav/*wav
-data/ja_test_enrolls${anon_data_suffix}/wav/*wav
-data/ja_test_trials_mixed${anon_data_suffix}/wav/*wav
+data/train_english${anon_data_suffix}/wav/*wav
+data/train_spanish${anon_data_suffix}/wav/*wav
+data/train_french${anon_data_suffix}/wav/*wav
+data/train_german${anon_data_suffix}/wav/*wav
 
 data/cn_dev_enrolls${anon_data_suffix}/wav/*wav
 data/cn_dev_trials_mixed${anon_data_suffix}/wav/*wav
 data/cn_test_enrolls${anon_data_suffix}/wav/*wav
 data/cn_test_trials_mixed${anon_data_suffix}/wav/*wav
 
-data/train_english${anon_data_suffix}/wav/*wav
-data/train_german${anon_data_suffix}/wav/*wav
-data/train_french${anon_data_suffix}/wav/*wav
-data/train_spanish${anon_data_suffix}/wav/*wav
+data/ja_dev_enrolls${anon_data_suffix}/wav/*wav
+data/ja_dev_trials_mixed${anon_data_suffix}/wav/*wav
+data/ja_test_enrolls${anon_data_suffix}/wav/*wav
+data/ja_test_trials_mixed${anon_data_suffix}/wav/*wav
 
 ```
+
+For the next evaluation step, you should replicate the corresponding directory structure when developing your anonymization system.  
+
+#### Step 2: Evaluation
+2. perform evaluations
+   
+```sh
+python run_evaluation.py --config configs/track2/eval_pre.yaml --overwrite "{\"anon_data_suffix\": \"$anon_data_suffix\"}" --force_compute True
+
+python run_evaluation.py --config configs/track2/eval_post_en.yaml --overwrite "{\"anon_data_suffix\": \"$anon_data_suffix\"}" --force_compute True
+python run_evaluation.py --config configs/track2/eval_post_de.yaml --overwrite "{\"anon_data_suffix\": \"$anon_data_suffix\"}" --force_compute True
+python run_evaluation.py --config configs/track2/eval_post_es.yaml --overwrite "{\"anon_data_suffix\": \"$anon_data_suffix\"}" --force_compute True
+python run_evaluation.py --config configs/track2/eval_post_fr.yaml --overwrite "{\"anon_data_suffix\": \"$anon_data_suffix\"}" --force_compute True
+```
+
+
+> All of the above steps are automated in [02_run_track2.sh](./02_run_track2.sh).
+
 
 ## Results
 #### Note, that WER results are computed on the trials part
@@ -262,22 +251,11 @@ Please see the [RESULTS folder](./results/track2) for the provided anonymization
 
 ## Data submission (To be updated)
 
-The anonymization and evaluation scripts should have generated the files and the directories with the explained format of `$anon_data_suffix` suffix.  
-For data submission, the following command submit everything given a `$anon_data_suffix` argument:
-```
-VPC_DROPBOX_KEY=XXX VPC_DROPBOX_SECRET=YYY VPC_DROPBOX_REFRESHTOKEN=ZZZ VPC_TEAM=TEAM_NAME ./03_upload_submission_track1.sh $anon_data_suffix
-VPC_DROPBOX_KEY=XXX VPC_DROPBOX_SECRET=YYY VPC_DROPBOX_REFRESHTOKEN=ZZZ VPC_TEAM=TEAM_NAME ./03_upload_submission_track2.sh $anon_data_suffix
-```
-`VPC_DROPBOX_KEY`, `VPC_DROPBOX_SECRET`, `VPC_DROPBOX_REFRESHTOKEN`, and `VPC_TEAM=TEAM_NAME` are sent individually to each team upon receiving their system description.  
-
-
-
-
 
 ## General information
 
 #### Evaluation plan
-For more details about the baseline and data, please see The VoicePrivacy 2026 Challenge Evaluation Plan
+For more details about the baseline and data, please see The [VoicePrivacy 2026 Challenge Evaluation Plan](https://www.voiceprivacychallenge.org/vp2026/docs/VPC_2026_march15.pdf)
 
 #### Training data
 
@@ -315,8 +293,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-## Reference
 
 ```
 
