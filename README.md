@@ -46,7 +46,7 @@ There are two options:
 
 #### Step 1: Anonymization
 ```sh
-python run_anonymization.py --config configs/track1/anon_mcadams.yaml  #Computational time varies from 30 minutes to 10 hours, depending on the number of core; for other methods it may be longer and depends on the available hardware. 
+python run_anonymization.py --config configs/track1/anon_mcadams.yaml  #Computational time varies from 30 minutes to 10 hours, depending on the number of cores; for other methods it may be longer and depends on the available hardware. 
 
 ```
 The anonymized audios will be saved in `$data_dir=data` into 7 folders corresponding to datasets.
@@ -230,7 +230,7 @@ Please see the [RESULTS folder](./results/track2) for the provided anonymization
 |--------|-------------|----|----|----|----|
 | `run_anonymization.py` | Generate anonymized audio (LibriSpeech dev+test, IEMOCAP dev+test, LibriSpeech-train-clean-360) | ~2h | ~13h | ~72h | ~1h |
 | `run_evaluation.py` (eval_pre.yaml) | ASR/ASV/SER on LibriSpeech dev+test & IEMOCAP dev+test using pretrained models | | | | |
-| `run_evaluation.py` (eval_post.yaml) | Train semi-informed ASV using anonymized LibriSpeech-360h, then evaluate on LibriSpeech dev+test |～10h | | | |
+| `run_evaluation.py` (eval_post.yaml) | Train semi-informed ASV using anonymized LibriSpeech-train-clean-360h, then evaluate on LibriSpeech dev+test |～10h | | | |
 
 #### Track 2
 
@@ -241,8 +241,8 @@ Please see the [RESULTS folder](./results/track2) for the provided anonymization
 | `run_anonymization.py` (anon\_post\_*.yaml) | Generate anonymized audio on multilingual training set (for semi-informed attacker) | ~11h|~22h | |
 | `run_evaluation.py` (eval\_post\_en.yaml) | Train semi-informed ASV using anonymized MLS-en data, then evaluate on MLS-en-dev+test | 50min/eps*4| | |
 | `run_evaluation.py` (eval\_post\_de.yaml) | Train semi-informed ASV using anonymized MLS-de data, then evaluate on MLS-de-dev+test | 33min/eps*10| | |
-| `run_evaluation.py` (eval\_post\_fr.yaml) | Train semi-informed ASV using anonymized MLS-de data, then evaluate on MLS-de-dev+test | 15min/eps*10| | |
-| `run_evaluation.py` (eval\_post\_es.yaml) | Train semi-informed ASV using anonymized MLS-de data, then evaluate on MLS-de-dev+test | 12min/eps*10| | |
+| `run_evaluation.py` (eval\_post\_fr.yaml) | Train semi-informed ASV using anonymized MLS-fr data, then evaluate on MLS-fr-dev+test | 15min/eps*10| | |
+| `run_evaluation.py` (eval\_post\_es.yaml) | Train semi-informed ASV using anonymized MLS-es data, then evaluate on MLS-es-dev+test | 12min/eps*10| | |
 
 
 </details>
