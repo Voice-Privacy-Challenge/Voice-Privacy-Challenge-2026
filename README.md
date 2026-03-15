@@ -260,7 +260,7 @@ For more details about the baseline and data, please see The [VoicePrivacy 2026 
 #### Training data (To be updated)
 
 #### Registration
-Participants are requested to register for the evaluation. Registration should be performed once only for each participating entity using the following form: **[Registration](https://forms.office.com/r/T2ZHD1p3UD)**.
+Participants are requested to register for the evaluation. Registration should be performed once only for each participating entity using the following form: **[Registration](https://forms.office.com/r/74BKeXBWTZ)**.
 
 
 ## Organizers (in alphabetical order)
