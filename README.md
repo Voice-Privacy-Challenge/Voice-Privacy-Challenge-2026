@@ -269,9 +269,9 @@ Participants are requested to register for the evaluation. Registration should b
 - Ridwan Arefeen - Singapore Institute of Technology, Singapore
 - Sarina Meyer - University of Stuttgart, Germany
 - Michele Panariello - EURECOM, France
-- Xin Wang - NII, Japan
+- Xin Wang - National Institute of Informatics, Japan
 - Emmanuel Vincent - Université de Lorraine, CNRS, Inria, LORIA, F-54000 Nancy, France
-- Junichi Yamagishi - NII, Japan
+- Junichi Yamagishi - National Institute of Informatics, Japan
 - Nicholas Evans - EURECOM, France
 - Massimiliano Todisco - EURECOM, France
 
