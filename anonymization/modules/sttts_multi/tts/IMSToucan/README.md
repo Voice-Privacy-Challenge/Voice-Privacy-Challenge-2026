@@ -1,3 +1,6 @@
+**This directory is copied from the main branch of the IMS Toucan Speech Synthesis toolkit at [https://github.com/DigitalPhonetics/IMS-Toucan](https://github.com/DigitalPhonetics/IMS-Toucan), status January 2026.**
+---
+
 <p align="right">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/DigitalPhonetics/IMS-Toucan">
 <img alt="GitHub Repo Downloads" src="https://img.shields.io/github/downloads/DigitalPhonetics/IMS-Toucan/total">
