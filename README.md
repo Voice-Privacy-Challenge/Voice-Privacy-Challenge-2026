@@ -23,7 +23,25 @@ Please visit the [challenge website](https://www.voiceprivacychallenge.org/) for
 > The [IEMOCAP](https://sail.usc.edu/iemocap/iemocap_release.htm) corpus must be downloaded on your own by submitting a request at https://sail.usc.edu/iemocap/iemocap_release.htm. The waiting time may take up to 7-9 days.
 
 ## Anonymization and Evaluation
-Please refer to [the anonymization and evaluation sections in the VPC2024 GitHub README.](https://github.com/Voice-Privacy-Challenge/Voice-Privacy-Challenge-2024/blob/main/README.md#:~:text=7%2D9%20days.-,Anonymization%20and%20Evaluation,-There%20are%20two)
+
+1. Run anonymization and evaluation: `./02_run_track1.sh configs/track1/anon_mcadams.yaml`.  
+    For each anonymization baseline, there is a corresponding config file:
+    -  #### [Anonymization using the McAdams coefficient](https://arxiv.org/abs/2011.01130): **B2**
+         [`configs/track1/anon_mcadams.yaml`](configs/track1/anon_mcadams.yaml)  A fast CPU-only signal-processing-based system  (default).
+
+    -  #### [Anonymization using phonetic transcriptions and GAN (STTTS)](https://ieeexplore.ieee.org/document/10096607): **B3**
+         [`configs/track1/anon_sttts.yaml`](configs/track1/anon_sttts.yaml)  A system based on an unmodified phone sequence, modified prosody, modified speaker embedding representations and speech synthesis.
+
+    -  #### [Anonymization using neural audio codec (NAC) language modeling](https://arxiv.org/abs/2309.14129): **B4**
+
+        [`configs/track1/anon_nac.yaml`](configs/track1/anon_nac.yaml) 
+
+    -  #### [Anonymization using ASR-BN with vector quantization (VQ)](https://arxiv.org/abs/2308.04455): **B5** 
+
+        [`configs/track1/anon_asrbn.yaml`](configs/track1/anon_asrbn.yaml) A fast system based on vector-quantized acoustic bottleneck, pitch, and one-hot speaker representations, and a HiFi-GAN speech synthesis model
+
+To run anonymization and evaluation separately, please refer to [the anonymization and evaluation sections in the VPC2024 GitHub README.](https://github.com/Voice-Privacy-Challenge/Voice-Privacy-Challenge-2024/blob/main/README.md#:~:text=7%2D9%20days.-,Anonymization%20and%20Evaluation,-There%20are%20two).
+
 ## Results
 #### Note, that WER results are computed on the trials part
 The result file with all the metrics and all datasets for submission will be generated in:
