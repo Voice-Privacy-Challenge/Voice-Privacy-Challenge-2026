@@ -1,5 +1,5 @@
 #!/bin/bash
-export CUDA_VISIBLE_DEVICES=0
+# export CUDA_VISIBLE_DEVICES=0 # change based on your GPU configuration
 set -e
 
 cd "$(dirname "$0")"
