@@ -38,7 +38,21 @@ else
   eval_overwrite="$eval_overwrite}"
 fi
 
-# Generate anonymized audio (libri dev+test set & IEMOCAP dev+test set & libri-360h)
+# Generate anonymized audio for Libri (dev/test), IEMOCAP (dev/test), and Libri train-clean-360
+# LibriSpeech dev 
+# data/libri_dev_enrolls${anon_data_suffix}/wav/*.wav
+# data/libri_dev_trials_mixed${anon_data_suffix}/wav/*.wav
+
+# LibriSpeech test
+# data/libri_test_enrolls${anon_data_suffix}/wav/*.wav
+# data/libri_test_trials_mixed${anon_data_suffix}/wav/*.wav
+
+# IEMOCAP
+# data/IEMOCAP_dev${anon_data_suffix}/wav/*.wav
+# data/IEMOCAP_test${anon_data_suffix}/wav/*.wav
+
+# LibriSpeech train-clean-360 (for semi-attacker training)
+# data/train-clean-360${anon_data_suffix}/wav/*.wav
 python run_anonymization.py --config ${anon_config} ${force_compute}
 
 # Perform libri dev+test & IEMOCAP dev+test pre evaluation using pretrained ASR/ASV/SER models
