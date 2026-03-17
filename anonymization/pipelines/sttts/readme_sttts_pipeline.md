@@ -1,6 +1,6 @@
 # STTTS Pipeline
 
-The STTTS (short for Speech-to-Text-to-Speech) speaker anonymization pipeline is an implementation of [this paper](https://www.isca-archive.org/interspeech_2022/meyer22b_interspeech.pdf) 
+The STTTS (short for Speech-to-Text-to-Speech) speaker anonymization pipeline is an implementation of [this paper](https://ieeexplore.ieee.org/abstract/document/10096607) 
 which further extends [this paper](https://www.isca-archive.org/interspeech_2022/meyer22b_interspeech.pdf) and [this paper](https://ieeexplore.ieee.org/abstract/document/10022601).
 The key ideas of this system are to reduce the linguistic content of the input speech to phonetic transcriptions that
 reveal as little information about the speaker as possible, generate artificial target speakers using a generative adversarial network (GAN), 
