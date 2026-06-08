@@ -192,7 +192,16 @@ Please see the [RESULTS folder](./results/track2) for the provided anonymization
 
 
 
-## Data submission (To be updated)
+## Data submission 
+The anonymization and evaluation scripts should have generated the files and the directories with the explained format of `$anon_data_suffix` suffix.  
+For data submission, the following command submit everything given a `$anon_data_suffix` argument:
+```
+OSS_ACCESS_KEY_ID=<XXX> OSS_ACCESS_KEY_SECRET=<XXX> OSS_TEAM=<TEAM_NAME> bash 03_upload_submission_oss_track1.sh $anon_data_suffix
+OSS_ACCESS_KEY_ID=<XXX> OSS_ACCESS_KEY_SECRET=<XXX> OSS_TEAM=<TEAM_NAME> bash 03_upload_submission_oss_track2.sh $anon_data_suffix
+```
+`OSS_ACCESS_KEY_ID`, `OSS_ACCESS_KEY_SECRET`, and `OSS_TEAM` will be sent individually to each team upon receiving their system description.  
+
+
 
 
 ## General information
