@@ -142,13 +142,15 @@ for ((i=0; i<length; i+=2)); do
 done
 
 # ===== Pack =====
-echo " -- Creating submission archive (using: $nj threads) --"
+echo " -- Creating submission archive (using: $nj threads, . = progress) --"
 archive="submission_track1${anon_suffix}.tar.gz"
 if command -v pigz >/dev/null 2>&1; then
-  tar --use-compress-program="pigz --best --processes $nj" -cf "$archive" $stuff_to_zip
+  tar --checkpoint=50000 --checkpoint-action=dot \
+    --use-compress-program="pigz --best --processes $nj" -cf "$archive" $stuff_to_zip
 else
-  tar -czf "$archive" $stuff_to_zip
+  tar --checkpoint=50000 --checkpoint-action=dot -czf "$archive" $stuff_to_zip
 fi
+echo
 
 # ===== Upload to OSS =====
 remote_name="submission_track1_${OSS_TEAM}${anon_suffix}_$(date +'%Y-%m-%d_%H-%M-%S').tar.gz"
