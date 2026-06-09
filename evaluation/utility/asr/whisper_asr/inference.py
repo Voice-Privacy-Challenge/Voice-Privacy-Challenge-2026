@@ -10,6 +10,9 @@ from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
 
 from utils import read_kaldi_format
 
+# Punctuation removed before WER so ref/hyp match VPC normalized ground-truth transcripts.
+_NON_WORD_PUNCT = re.compile(r'[.,!?;:»«""()\[\]…—–\-]')
+
 
 class ASRDataset(torch.utils.data.Dataset):
     def __init__(self, wav_scp_file, asr_model):
@@ -82,6 +85,12 @@ class InferenceWhisperASR:
 
 
 
+    def _normalize_transcript(self, text):
+        """Match VPC ground-truth format: lowercase, no punctuation, collapsed spaces."""
+        text = text.strip().lower()
+        text = _NON_WORD_PUNCT.sub('', text)
+        return ' '.join(text.split())
+
     def plain_text_key(self, path):
         tokens = []  # key: token_list
         for token in path:
@@ -99,6 +108,7 @@ class InferenceWhisperASR:
                 tokens.append(list(cleaned_token) if cleaned_token else [])
             else:
                 # For non-Chinese text, split by spaces (word-level evaluation)
+                cleaned_token = self._normalize_transcript(cleaned_token)
                 tokens.append(cleaned_token.split(' ') if cleaned_token else [])
         return tokens
     
