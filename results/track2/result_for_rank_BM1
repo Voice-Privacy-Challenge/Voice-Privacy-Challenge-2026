@@ -8,6 +8,17 @@
 2  emodata  test      anon  42.630  39.615  70.213  12.830  47.863
 3  emodata  test  original  78.904  68.077  90.638  83.396  73.504
 
+---- ASV_eval results ----
+   dataset split gender enrollment trial     EER
+8       de   dev  mixed       anon  anon   8.309
+11      de  test  mixed       anon  anon  11.494
+2       en   dev  mixed       anon  anon   2.758
+5       en  test  mixed       anon  anon   5.259
+20      es   dev  mixed       anon  anon  13.189
+23      es  test  mixed       anon  anon   8.578
+14      fr   dev  mixed       anon  anon   9.931
+17      fr  test  mixed       anon  anon  11.199
+
 ---- ASR results ----
    dataset split       asr     WER
 2       de   dev  original   5.246
