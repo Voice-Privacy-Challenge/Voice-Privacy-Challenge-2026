@@ -207,7 +207,7 @@ OSS_ACCESS_KEY_ID=<XXX> OSS_ACCESS_KEY_SECRET=<XXX> OSS_TEAM=<TEAM_NAME> bash 03
 ## General information
 
 #### Evaluation plan
-For more details about the baseline and data, please see The [VoicePrivacy 2026 Challenge Evaluation Plan](https://www.voiceprivacychallenge.org/vp2026/docs/VPC_2026_march15.pdf)
+For more details about the baseline and data, please see The [VoicePrivacy 2026 Challenge Evaluation Plan v1.2](https://www.voiceprivacychallenge.org/vp2026/docs/VPC_2026_june14.pdf)
 
 #### Training data 
 [Final list of models and data](https://www.voiceprivacychallenge.org/vp2026/docs/VPC2026_training_list.pdf
