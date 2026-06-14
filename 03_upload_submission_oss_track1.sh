@@ -120,25 +120,64 @@ file=${results_exp}/result_for_submission${anon_suffix}.zip
 stuff_to_zip="${stuff_to_zip} ${results_exp}/result_for_rank${anon_suffix} ${results_exp}/result_for_submission${anon_suffix}.zip"
 
 # Track 1 anonymized wav dirs (libri + IEMOCAP + train-clean-360, trials_mixed layout).
-tuples=(
-  data/libri_dev_enrolls${anon_suffix}              7324598
-  data/libri_dev_trials_mixed${anon_suffix}         455295386
-  data/libri_test_enrolls${anon_suffix}            86805881
-  data/libri_test_trials_mixed${anon_suffix}      416608014
-  data/IEMOCAP_dev${anon_suffix}                  418919757
-  data/IEMOCAP_test${anon_suffix}                 388856264
-  data/train-clean-360${anon_suffix}            41937610246
-)
-length=${#tuples[@]}
-for ((i=0; i<length; i+=2)); do
-  dir=${tuples[i]}
-  [ ! -d "$dir" ] && echo "Directory $dir does not exist." && exit 1
-  threshold=${tuples[i+1]}
-  dir_size=$(du -sb "$dir" | cut -f1)
-  if [ "$dir_size" -lt "$threshold" ]; then
-    echo "Directory '$dir' size ($dir_size bytes) is not greater than $threshold bytes. The wavs must be in this folder for submission." && exit 1
+validate_anon_dataset() {
+  local anon_dir="$1"
+  local ref_dir="$2"
+  local ref_scp="$ref_dir/wav.scp"
+  local anon_scp="$anon_dir/wav.scp"
+
+  [ ! -d "$anon_dir" ] && echo "Directory $anon_dir does not exist." && exit 1
+  [ ! -d "$ref_dir" ] && echo "Reference directory $ref_dir does not exist." && exit 1
+  [ ! -f "$ref_scp" ] && echo "Reference wav.scp missing: $ref_scp" && exit 1
+  [ ! -f "$anon_scp" ] && echo "wav.scp missing in $anon_dir" && exit 1
+
+  # Required Kaldi metadata files (same file list as reference, except wav.scp).
+  for ref_file in "$ref_dir"/*; do
+    [ -f "$ref_file" ] || continue
+    local base
+    base=$(basename "$ref_file")
+    [ "$base" = "wav.scp" ] && continue
+    [ ! -f "$anon_dir/$base" ] && echo "Missing required file $anon_dir/$base (expected from $ref_dir)" && exit 1
+  done
+
+  local ref_count anon_count
+  ref_count=$(wc -l < "$ref_scp")
+  anon_count=$(wc -l < "$anon_scp")
+  if [ "$ref_count" -ne "$anon_count" ]; then
+    echo "wav.scp entry count mismatch for $anon_dir: $anon_count != $ref_count (expected from $ref_dir/wav.scp)" && exit 1
   fi
-  stuff_to_zip="${stuff_to_zip} ${dir}"
+
+  if ! diff -q <(awk '{print $1}' "$ref_scp" | LC_ALL=C sort) \
+              <(awk '{print $1}' "$anon_scp" | LC_ALL=C sort) >/dev/null; then
+    echo "wav.scp utterance IDs mismatch between $anon_dir and $ref_dir" && exit 1
+  fi
+
+  local missing
+  missing=$(awk '{print $2}' "$anon_scp" | while IFS= read -r wav_path; do
+    [ -n "$wav_path" ] && [ ! -f "$wav_path" ] && echo "$wav_path"
+  done | head -5)
+  if [ -n "$missing" ]; then
+    echo "Missing wav files in $anon_dir (first few):" && echo "$missing" && exit 1
+  fi
+
+  echo "  OK: $anon_dir ($anon_count utterances, structure matches $ref_dir)"
+}
+
+track1_datasets=(
+  libri_dev_enrolls
+  libri_dev_trials_mixed
+  libri_test_enrolls
+  libri_test_trials_mixed
+  IEMOCAP_dev
+  IEMOCAP_test
+  train-clean-360
+)
+echo " -- Validating anonymized datasets against reference wav.scp --"
+for base in "${track1_datasets[@]}"; do
+  anon_dir="data/${base}${anon_suffix}"
+  ref_dir="data/${base}"
+  validate_anon_dataset "$anon_dir" "$ref_dir"
+  stuff_to_zip="${stuff_to_zip} ${anon_dir}"
 done
 
 # ===== Pack =====
