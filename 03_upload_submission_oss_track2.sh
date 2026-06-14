@@ -120,49 +120,124 @@ file=${results_exp}/result_for_submission${anon_suffix}.zip
 stuff_to_zip="${stuff_to_zip} ${results_exp}/result_for_rank${anon_suffix} ${results_exp}/result_for_submission${anon_suffix}.zip"
 
 # Track 2 anonymized wav dirs (multilingual dev+test, emodata_track2, multilingual training).
-# Size thresholds: rough lower bounds from BM1 baseline (wavs must be present).
-tuples=(
-  data/en_dev_enrolls${anon_suffix}              266770532
-  data/en_dev_trials_mixed${anon_suffix}      1462812299
-  data/en_test_enrolls${anon_suffix}            263207110
-  data/en_test_trials_mixed${anon_suffix}     1443814112
-  data/es_dev_enrolls${anon_suffix}             165950158
-  data/es_dev_trials_mixed${anon_suffix}        929122170
-  data/es_test_enrolls${anon_suffix}            167971913
-  data/es_test_trials_mixed${anon_suffix}       928739516
-  data/fr_dev_enrolls${anon_suffix}             169859584
-  data/fr_dev_trials_mixed${anon_suffix}        934119914
-  data/fr_test_enrolls${anon_suffix}             170716163
-  data/fr_test_trials_mixed${anon_suffix}       932888224
-  data/de_dev_enrolls${anon_suffix}             240562246
-  data/de_dev_trials_mixed${anon_suffix}       1326210127
-  data/de_test_enrolls${anon_suffix}            245530566
-  data/de_test_trials_mixed${anon_suffix}       1322270368
-  data/emodata_track2_dev${anon_suffix}          94933564
-  data/emodata_track2_test${anon_suffix}         90957021
-  data/train_english${anon_suffix}            8605793658
-  data/train_spanish${anon_suffix}            1636411865
-  data/train_french${anon_suffix}               2120209608
-  data/train_german${anon_suffix}               3123850767
-  data/cn_dev_enrolls${anon_suffix}              280080098
-  data/cn_dev_trials_mixed${anon_suffix}       1555151489
-  data/cn_test_enrolls${anon_suffix}            258619324
-  data/cn_test_trials_mixed${anon_suffix}       1441991487
-  data/ja_dev_enrolls${anon_suffix}              213357779
-  data/ja_dev_trials_mixed${anon_suffix}       1160113571
-  data/ja_test_enrolls${anon_suffix}              213360332
-  data/ja_test_trials_mixed${anon_suffix}       1167445484
-)
-length=${#tuples[@]}
-for ((i=0; i<length; i+=2)); do
-  dir=${tuples[i]}
-  [ ! -d "$dir" ] && echo "Directory $dir does not exist." && exit 1
-  threshold=${tuples[i+1]}
-  dir_size=$(du -sb "$dir" | cut -f1)
-  if [ "$dir_size" -lt "$threshold" ]; then
-    echo "Directory '$dir' size ($dir_size bytes) is not greater than $threshold bytes. The wavs must be in this folder for submission." && exit 1
+validate_anon_dataset() {
+  local anon_dir="$1"
+  local ref_dir="$2"
+  local optional="${3:-false}"
+  local ref_scp="$ref_dir/wav.scp"
+  local anon_scp="$anon_dir/wav.scp"
+
+  if [ ! -d "$anon_dir" ]; then
+    [ "$optional" != true ] && echo "Directory $anon_dir does not exist."
+    [ "$optional" = true ] && return 1
+    exit 1
   fi
-  stuff_to_zip="${stuff_to_zip} ${dir}"
+  if [ ! -d "$ref_dir" ]; then
+    [ "$optional" != true ] && echo "Reference directory $ref_dir does not exist."
+    [ "$optional" = true ] && return 1
+    exit 1
+  fi
+  if [ ! -f "$ref_scp" ]; then
+    [ "$optional" != true ] && echo "Reference wav.scp missing: $ref_scp"
+    [ "$optional" = true ] && return 1
+    exit 1
+  fi
+  if [ ! -f "$anon_scp" ]; then
+    [ "$optional" != true ] && echo "wav.scp missing in $anon_dir"
+    [ "$optional" = true ] && return 1
+    exit 1
+  fi
+
+  # Required Kaldi metadata files (same file list as reference, except wav.scp).
+  for ref_file in "$ref_dir"/*; do
+    [ -f "$ref_file" ] || continue
+    local base
+    base=$(basename "$ref_file")
+    [ "$base" = "wav.scp" ] && continue
+    if [ ! -f "$anon_dir/$base" ]; then
+      [ "$optional" != true ] && echo "Missing required file $anon_dir/$base (expected from $ref_dir)"
+      [ "$optional" = true ] && return 1
+      exit 1
+    fi
+  done
+
+  local ref_count anon_count
+  ref_count=$(wc -l < "$ref_scp")
+  anon_count=$(wc -l < "$anon_scp")
+  if [ "$ref_count" -ne "$anon_count" ]; then
+    [ "$optional" != true ] && echo "wav.scp entry count mismatch for $anon_dir: $anon_count != $ref_count (expected from $ref_dir/wav.scp)"
+    [ "$optional" = true ] && return 1
+    exit 1
+  fi
+
+  if ! diff -q <(awk '{print $1}' "$ref_scp" | LC_ALL=C sort) \
+              <(awk '{print $1}' "$anon_scp" | LC_ALL=C sort) >/dev/null; then
+    [ "$optional" != true ] && echo "wav.scp utterance IDs mismatch between $anon_dir and $ref_dir"
+    [ "$optional" = true ] && return 1
+    exit 1
+  fi
+
+  local missing
+  missing=$(awk '{print $2}' "$anon_scp" | while IFS= read -r wav_path; do
+    [ -n "$wav_path" ] && [ ! -f "$wav_path" ] && echo "$wav_path"
+  done | head -5)
+  if [ -n "$missing" ]; then
+    if [ "$optional" != true ]; then
+      echo "Missing wav files in $anon_dir (first few):"
+      echo "$missing"
+      echo "Missing wav files in $anon_dir"
+    fi
+    [ "$optional" = true ] && return 1
+    exit 1
+  fi
+
+  echo "  OK: $anon_dir ($anon_count utterances, structure matches $ref_dir)"
+  return 0
+}
+
+track2_datasets=(
+  en_dev_enrolls
+  en_dev_trials_mixed
+  en_test_enrolls
+  en_test_trials_mixed
+  es_dev_enrolls
+  es_dev_trials_mixed
+  es_test_enrolls
+  es_test_trials_mixed
+  fr_dev_enrolls
+  fr_dev_trials_mixed
+  fr_test_enrolls
+  fr_test_trials_mixed
+  de_dev_enrolls
+  de_dev_trials_mixed
+  de_test_enrolls
+  de_test_trials_mixed
+  emodata_track2_dev
+  emodata_track2_test
+  train_english
+  train_spanish
+  train_french
+  train_german
+  cn_dev_enrolls
+  cn_dev_trials_mixed
+  cn_test_enrolls
+  cn_test_trials_mixed
+  ja_dev_enrolls
+  ja_dev_trials_mixed
+  ja_test_enrolls
+  ja_test_trials_mixed
+)
+echo " -- Validating anonymized datasets against reference wav.scp --"
+for base in "${track2_datasets[@]}"; do
+  anon_dir="data/${base}${anon_suffix}"
+  ref_dir="data/${base}"
+  optional=false
+  [[ "$base" == cn_* || "$base" == ja_* ]] && optional=true
+  if validate_anon_dataset "$anon_dir" "$ref_dir" "$optional"; then
+    stuff_to_zip="${stuff_to_zip} ${anon_dir}"
+  elif [ "$optional" != true ]; then
+    exit 1
+  fi
 done
 
 # ===== Pack =====
