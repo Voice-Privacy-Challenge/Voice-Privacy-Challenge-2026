@@ -28,7 +28,7 @@ if [ ! -d exp/ssl_models ]; then
     echo "Download pretrained models of SSL-based speaker anonymization system..."
     mkdir -p exp/
     cd exp/
-    wget  -O ssl_models.zip https://duke.app.box.com/shared/static/aolbk5ptoa069fjn06l05oqzidd1lsjy
+    wget  -O ssl_models.zip https://duke.app.box.com/shared/static/qe1idwbhzaueyoziimjm6wo56olhtnf7
     unzip ssl_models.zip
     wget  -O ssl_models/hubert_base_ls960.pt https://dl.fbaipublicfiles.com/hubert/hubert_base_ls960.pt
     cd ../
