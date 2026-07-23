@@ -7,12 +7,12 @@ source env.sh
 
 # Define language codes and their download URLs
 declare -A lang_urls=(
-    ["en"]="https://duke.app.box.com/shared/static/19ckgfo06hwkorermjejsb05in65js3n"
-    ["de"]="https://duke.app.box.com/shared/static/zt36nglx7axehrty2uzi3vn007q9rqkk"
-    ["ja"]="https://duke.app.box.com/shared/static/rnj5jz5qrg7wrupo2c3wnk8gqu1ndwxv"
+    ["en"]="https://duke.app.box.com/shared/static/qk49dcwnr0lzobk0ptdf4a3suypsyuq9"
+    ["de"]="https://duke.app.box.com/shared/static/3wmia60yrda6kp2a1kedsoogqndiz5en"
+    ["ja"]="https://duke.app.box.com/shared/static/prs19enmi8dblylzm2fhsmp2rpjybkwj"
     ["cn"]="https://duke.app.box.com/shared/static/h912rd8jzzh13ywqvsi9yk78zwf1zi3x"
-    ["fr"]="https://duke.app.box.com/shared/static/l125t9a9pr2c26r3or6eord3h2z17e8u"
-    ["es"]="https://duke.app.box.com/shared/static/vq1o1r42xjwvhnvllfz1vioyis6x6394"
+    ["fr"]="https://duke.app.box.com/shared/static/vxpoiyl0wfz9le31ieyby3qoonj2m8es"
+    ["es"]="https://duke.app.box.com/shared/static/eu5f2zhaui11h6cnwxl1x3z3fty1gx72"
 )
 
 # Check if all language directories exist
@@ -90,7 +90,7 @@ if [ ! -d "exp/$model" ]; then
     cd exp
     if [ ! -f .${model}.zip ]; then
         echo "Download pretrained $model models pre-trained..."
-        wget -O ${model}.zip https://duke.app.box.com/shared/static/na6grb7akap4ze66stiazp2azw4zb1f1
+        wget -O ${model}.zip https://duke.app.box.com/shared/static/wo07rwi5xcgam1v6qlzfnzb536rqug14
         mv ${model}.zip .${model}.zip
     fi
     echo "Unpacking pretrained evaluation models"
