@@ -69,7 +69,9 @@ def merge_kaldi_files(file_name, dir_f, dir_m, out_dir):
 def main():
     parser = argparse.ArgumentParser(description="Generate mixed trials for LibriSpeech evaluation.")
     parser.add_argument("--partition", type=str, required=True, choices=["test", "dev"], help="Partition name (test or dev)")
+    parser.add_argument("--seed", type=int, default=67, help="Random seed used to generate mixed trials")
     args = parser.parse_args()
+    rng = random.Random(args.seed)
 
     # Paths built dynamically based on partition choice
     enrolls_file = f"data/libri_{args.partition}_enrolls/enrolls"
@@ -118,13 +120,13 @@ def main():
 
     male_enroll_vs_female_trials = []
     for trial in unique_female_trials:
-        random_males = random.sample(male_enrolls, avg_female_trials_count)
+        random_males = rng.sample(male_enrolls, min(avg_female_trials_count, len(male_enrolls)))
         for male in random_males:
             male_enroll_vs_female_trials.append((male, trial, "nontarget"))
 
     female_enroll_vs_male_trials = []
     for trial in unique_male_trials:
-        random_females = random.sample(female_enrolls, avg_male_trials_count)
+        random_females = rng.sample(female_enrolls, min(avg_male_trials_count, len(female_enrolls)))
         for female in random_females:
             female_enroll_vs_male_trials.append((female, trial, "nontarget"))
 
@@ -146,5 +148,6 @@ def main():
             f.write(f"{spk} {utt} {label}\n")
 
 
+# i hope there is no more stupid crap now
 if __name__ == "__main__":
     main()
