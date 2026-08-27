@@ -86,11 +86,11 @@ def main():
         print(f"Created directory: {trials_mixed_dir}")
 
     enroll_pairs = _read_enroll_file(enrolls_file)
-    male_trials = _read_trial_file(trials_f_file)
-    female_trials = _read_trial_file(trials_m_file)
+    female_trials = _read_trial_file(trials_f_file)
+    male_trials = _read_trial_file(trials_m_file)
 
-    unique_female_trials = set([t[1] for t in female_trials])
-    unique_male_trials = set([t[1] for t in male_trials])
+    unique_female_trials = sorted({t[1] for t in female_trials})
+    unique_male_trials = sorted({t[1] for t in male_trials})
 
     print(f"Number of enroll pairs: {len(enroll_pairs)}")
     print(f"Number of female trials: {len(female_trials)}")
@@ -109,21 +109,12 @@ def main():
             male_counts[u] += 1
     avg_male_trials_count = round(sum(male_counts.values()) / len(male_counts))
 
-    print(f"Average female nontarget trials per speaker: {avg_female_trials_count}")
-    print(f"Average male nontarget trials per speaker: {avg_male_trials_count}")
-
-
-    # i'm out of time and i have a train to catch and i still have to fucking pack
-    # so i'll just do a stupidly simple approach
-    # for each unique female trial, i'll pair them with a bunch of random males (nontarget, ofc)
-    # same for males, other way around
-    # for both i'll keep the same number of average values per nontarget utterance in their original partition
-    # well maybe there could have been more "stupidly simple" approaches
-    # but hey why don't you write the code yourself while i pack then
+    print(f"Average female nontarget trials per utterance: {avg_female_trials_count}")
+    print(f"Average male nontarget trials per utterance: {avg_male_trials_count}")
 
     gender_mapping = _load_speaker_genders(spk2gender_file)
-    male_enrolls = [pair[0] for pair in enroll_pairs if gender_mapping[pair[0]] == "m"]
-    female_enrolls = [pair[0] for pair in enroll_pairs if gender_mapping[pair[0]] == "f"]
+    male_enrolls = sorted({pair[0] for pair in enroll_pairs if gender_mapping[pair[0]].lower() == "m"})
+    female_enrolls = sorted({pair[0] for pair in enroll_pairs if gender_mapping[pair[0]].lower() == "f"})
 
     male_enroll_vs_female_trials = []
     for trial in unique_female_trials:
@@ -142,10 +133,6 @@ def main():
 
     all_trials = mixed_trials + male_trials + female_trials
     print(f'New trial count: {len(all_trials)} (female, male, mixed).')
-
-    # done. now we just need to merge the other kaldi files for trials_f and trials_m
-    # it's all boilerplate so i'll let gemini do it
-    # it's gonna do a much better job than me anyway
 
     print("\nMerging Kaldi files...")
     kaldi_files = ["spk2gender", "spk2utt", "wav.scp", "text", "utt2dur", "utt2spk"]
