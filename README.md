@@ -1,3 +1,15 @@
+## ⚠️ What's New — September 1, 2026
+
+> [!IMPORTANT]
+> **The evaluation code and Track 1 trial lists have been updated. Please make sure to pull the latest version before running the evaluation.**
+
+* **Speaker embedding normalization:** Updated the evaluation code to use the same normalization procedure as training.
+
+* **Track 1 trial lists:** Fixed incorrect labels and duplicate trial pairs. The updated trial lists now correctly use mixed trials, including both same-gender and cross-gender trials, as specified in the VPC 2026 evaluation plan.
+
+> [!NOTE]
+> Track 2 trial lists are not affected.
+
 # Recipe for VoicePrivacy Challenge 2026
 
 Please visit the [challenge website](https://www.voiceprivacychallenge.org/) for more information about the Challenge.
