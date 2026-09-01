@@ -9,7 +9,7 @@ source env.sh
 
 if [ ! -d "data/libri_dev" ]; then
     echo "Downloading ..."
-    wget -O track1_evaldata.zip https://duke.app.box.com/shared/static/37dg9nzq5gwe254d6dhxgngk2g8dcuzz
+    wget -O track1_evaldata.zip https://duke.app.box.com/shared/static/ehfkeudzj6nnm4cq3kbcjtaqt3mofudb
     unzip track1_evaldata.zip
 fi
 
