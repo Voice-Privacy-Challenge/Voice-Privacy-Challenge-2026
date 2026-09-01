@@ -5,7 +5,7 @@
 
 * **Speaker embedding normalization:** Updated the evaluation code to use the same normalization procedure as training.
 
-* **Track 1 trial lists:**: Fixed incorrect labels and duplicate trial pairs in the previous version, which contained only same-gender trials (F-F and M-M). The updated trial lists now correctly include both same-gender and cross-gender trials, as specified in the VPC 2026 evaluation plan.
+* **Track 1 trial lists:** Fixed incorrect labels and duplicate pairs. After applying a last-wins rule, the previous version effectively followed the same-gender VPC 2024 protocol with correct labels (F-F and M-M only). The updated lists now correctly include both same- and cross-gender trials, as specified in the VPC 2026 evaluation plan.
 
 > [!NOTE]
 > Track 2 trial lists are not affected.
