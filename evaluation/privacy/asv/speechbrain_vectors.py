@@ -157,11 +157,9 @@ class SpeechBrainVectors:
             ssl_features = self.wavlm_.extract_features([wav_path])
             vec = self.extractor(fbank_features, ssl_features)
 
-            if vec.dim() == 1:
-                return F.normalize(vec, dim=0)
-            else:
-                return F.normalize(vec, dim=1).squeeze()
-
+            # L2 along the embedding axis. ECAPA_TDNN_test returns [B, 1, 192];
+            return F.normalize(vec, dim=-1).squeeze()
+            
         elif self.vec_type == 'ecapa':
             audio = torch.tensor(np.trim_zeros(audio.cpu().numpy()))
             if len(audio.shape) == 1:
