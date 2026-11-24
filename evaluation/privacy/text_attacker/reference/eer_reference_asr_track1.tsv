@@ -1,0 +1,32 @@
+# Track 1 EERs of the released libri head with ASR transcripts as trial text (enrollment: reference transcripts),
+# on the official trial list of 2026-09-01. 'original' is the original audio; the other rows are anonymized audio of
+# six systems (the four challenge baselines B2-B5, kNN-VC and a Whisper-to-TTS cascade); another run of a system
+# will not give exactly these numbers.
+# The transcripts were read from Kaldi text files, i.e. with whitespace collapsed.
+split	trial_text	asr	hyp_norm	system	eer	n_empty_hyp
+dev	asr_anon	Whisper large-v3	none	b2	37.03	0
+dev	asr_anon	Whisper large-v3	none	b3	36.642	0
+dev	asr_anon	Whisper large-v3	none	b4	37.154	0
+dev	asr_anon	Whisper large-v3	none	b5	35.979	0
+dev	asr_anon	Whisper large-v3	none	knnvc	36.865	0
+dev	asr_anon	Whisper large-v3	none	qtts	36.498	0
+test	asr_anon	Whisper large-v3	none	b2	34.109	0
+test	asr_anon	Whisper large-v3	none	b3	33.704	0
+test	asr_anon	Whisper large-v3	none	b4	34.604	0
+test	asr_anon	Whisper large-v3	none	b5	33.801	0
+test	asr_anon	Whisper large-v3	none	knnvc	33.902	0
+test	asr_anon	Whisper large-v3	none	qtts	34.001	0
+dev	asr_orig	official wav2vec2	upper_letters	original	36.047	0
+dev	asr_anon	official wav2vec2	upper_letters	b2	37.25	0
+dev	asr_anon	official wav2vec2	upper_letters	b3	36.276	0
+dev	asr_anon	official wav2vec2	upper_letters	b4	36.337	0
+dev	asr_anon	official wav2vec2	upper_letters	b5	35.905	0
+dev	asr_anon	official wav2vec2	upper_letters	knnvc	35.979	0
+dev	asr_anon	official wav2vec2	upper_letters	qtts	36.202	0
+test	asr_orig	official wav2vec2	upper_letters	original	34.993	0
+test	asr_anon	official wav2vec2	upper_letters	b2	36.309	1
+test	asr_anon	official wav2vec2	upper_letters	b3	35.016	0
+test	asr_anon	official wav2vec2	upper_letters	b4	35.388	0
+test	asr_anon	official wav2vec2	upper_letters	b5	34.887	0
+test	asr_anon	official wav2vec2	upper_letters	knnvc	34.905	0
+test	asr_anon	official wav2vec2	upper_letters	qtts	34.805	0

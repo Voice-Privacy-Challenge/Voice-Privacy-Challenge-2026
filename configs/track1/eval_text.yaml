@@ -1,0 +1,34 @@
+data_dir: data
+exp_dir: exp
+track: track1
+
+anon_data_suffix: '' # suffix of the anonymized data, e.g. _mcadams; needed for the trial text asr_anon
+
+trial_text: [ref] # ref, asr_orig, asr_anon; the ASR transcripts are written by the ASR evaluation of run_evaluation.py
+
+text_backbone: BAAI/bge-m3 # Hugging Face model id or local directory
+
+datasets:
+  - name: libri_dev
+    data: libri_dev
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: libri_test
+    data: libri_test
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+
+privacy:
+  text_attacker:
+    dataset_name: [libri_dev, libri_test]
+    backbone: !ref <text_backbone>
+    backbone_revision: 5617a9f61b028005a4858fdac845db406aefb181
+    evaluation:
+      results_dir: !ref <exp_dir>/text_attacker/results/<track>
+      asr_text_dir: !ref <exp_dir>/asr # must equal utility.asr.evaluation.results_dir of eval_pre.yaml
+      trial_text: !ref <trial_text>
+      hyp_norm: head # normalization of ASR transcripts: head (the convention the head was trained on), none, upper_letters or lower_letters
+      eval_batchsize: 32
+      heads: # one head per dataset prefix
+        libri:
+          head_dir: !ref <exp_dir>/text_attacker/heads/libri

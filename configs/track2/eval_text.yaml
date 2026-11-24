@@ -1,0 +1,64 @@
+data_dir: data
+exp_dir: exp
+track: track2
+
+anon_data_suffix: '' # suffix of the anonymized data, e.g. _mcadams; needed for the trial text asr_anon
+
+trial_text: [ref] # ref, asr_orig, asr_anon; the ASR transcripts are written by the ASR evaluation of run_evaluation.py
+
+text_backbone: BAAI/bge-m3 # Hugging Face model id or local directory
+
+datasets:
+  - name: en_dev
+    data: en_dev
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: en_test
+    data: en_test
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: de_dev
+    data: de_dev
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: de_test
+    data: de_test
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: es_dev
+    data: es_dev
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: es_test
+    data: es_test
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: fr_dev
+    data: fr_dev
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+  - name: fr_test
+    data: fr_test
+    enrolls: [_enrolls]
+    trials: [_trials_mixed]
+
+privacy:
+  text_attacker:
+    dataset_name: [en_dev, en_test, de_dev, de_test, es_dev, es_test, fr_dev, fr_test]
+    backbone: !ref <text_backbone>
+    backbone_revision: 5617a9f61b028005a4858fdac845db406aefb181
+    evaluation:
+      results_dir: !ref <exp_dir>/text_attacker/results/<track>
+      asr_text_dir: !ref <exp_dir>/openai/whisper-large-v3 # must equal utility.asr.evaluation.results_dir of eval_pre.yaml
+      trial_text: !ref <trial_text>
+      hyp_norm: head # normalization of ASR transcripts: head (the convention the head was trained on), none, upper_letters or lower_letters
+      eval_batchsize: 32
+      heads: # one head per dataset prefix
+        en:
+          head_dir: !ref <exp_dir>/text_attacker/heads/en
+        de:
+          head_dir: !ref <exp_dir>/text_attacker/heads/de
+        es:
+          head_dir: !ref <exp_dir>/text_attacker/heads/es
+        fr:
+          head_dir: !ref <exp_dir>/text_attacker/heads/fr
