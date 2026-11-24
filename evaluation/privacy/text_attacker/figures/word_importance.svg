@@ -1,0 +1,344 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="626" viewBox="0 0 920 626" role="img" aria-label="Word importance of six target trials of libri_dev">
+<style>
+text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "DejaVu Sans Mono", monospace; fill: #1c2330; }
+.w { font-size: 14px; } .m { font-size: 12px; fill: #4a5361; } .k { font-size: 12px; } .h { font-size: 13px; font-weight: 600; }
+</style>
+<rect width="920" height="626" fill="#ffffff"/>
+<text x="20" y="34" class="h">Word importance, libri_dev target trials, reference transcripts (EER threshold 0.239)</text>
+<rect x="20" y="45" width="219.5" height="18" rx="3" fill="rgb(38,160,65)" fill-opacity="0.6"/>
+<text x="25" y="58" class="k">pushes towards “same speaker”</text>
+<rect x="251.54571428571427" y="45" width="255.7" height="18" rx="3" fill="rgb(218,55,50)" fill-opacity="0.6"/>
+<text x="256.54571428571427" y="58" class="k">pushes towards “different speaker”</text>
+<text x="20" y="88" class="m">enrollment speaker 1673  ·  trial 1673-143397-0001  ·  <tspan fill="#1a6b2c" font-weight="600">accept (0.39)</tspan></text>
+<rect x="18.0" y="99" width="63.0" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.345"/>
+<text x="20.0" y="114" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">WITHOUT</text>
+<rect x="85.4" y="99" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.089"/>
+<text x="87.4" y="114" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">ANY</text>
+<rect x="119.2" y="99" width="46.1" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.308"/>
+<text x="121.2" y="114" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">LEGAL</text>
+<rect x="169.7" y="99" width="71.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.068"/>
+<text x="171.7" y="114" class="w" textLength="67.4" lengthAdjust="spacingAndGlyphs">SENTENCE</text>
+<rect x="245.6" y="99" width="63.0" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.287"/>
+<text x="247.6" y="114" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">WITHOUT</text>
+<rect x="313.1" y="99" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.062"/>
+<text x="315.1" y="114" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">ANY</text>
+<rect x="346.8" y="99" width="46.1" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.024"/>
+<text x="348.8" y="114" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">ROYAL</text>
+<rect x="397.3" y="99" width="63.0" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.231"/>
+<text x="399.3" y="114" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">MANDATE</text>
+<rect x="464.8" y="99" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.144"/>
+<text x="466.8" y="114" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="498.5" y="99" width="79.9" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.633"/>
+<text x="500.5" y="114" class="w" textLength="75.9" lengthAdjust="spacingAndGlyphs">PATRIARCH</text>
+<rect x="582.8" y="99" width="20.9" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.178"/>
+<text x="584.8" y="114" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">AT</text>
+<rect x="608.1" y="99" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.006"/>
+<text x="610.1" y="114" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="641.8" y="99" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.283"/>
+<text x="643.8" y="114" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">DAWN</text>
+<rect x="684.0" y="99" width="20.9" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.151"/>
+<text x="686.0" y="114" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">OF</text>
+<rect x="709.3" y="99" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.098"/>
+<text x="711.3" y="114" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">DAY</text>
+<rect x="743.0" y="99" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.492"/>
+<text x="745.0" y="114" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">LED</text>
+<rect x="776.7" y="99" width="12.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.025"/>
+<text x="778.7" y="114" class="w" textLength="8.4" lengthAdjust="spacingAndGlyphs">A</text>
+<rect x="793.6" y="99" width="79.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.167"/>
+<text x="795.6" y="114" class="w" textLength="75.9" lengthAdjust="spacingAndGlyphs">SEDITIOUS</text>
+<rect x="18.0" y="125" width="79.9" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.223"/>
+<text x="20.0" y="140" class="w" textLength="75.9" lengthAdjust="spacingAndGlyphs">MULTITUDE</text>
+<rect x="102.3" y="125" width="20.9" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.128"/>
+<text x="104.3" y="140" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">TO</text>
+<rect x="127.6" y="125" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.167"/>
+<text x="129.6" y="140" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="161.3" y="125" width="54.6" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.267"/>
+<text x="163.3" y="140" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">ATTACK</text>
+<rect x="220.3" y="125" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.103"/>
+<text x="222.3" y="140" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">OF</text>
+<rect x="245.6" y="125" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.111"/>
+<text x="247.6" y="140" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="279.3" y="125" width="88.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.850"/>
+<text x="281.3" y="140" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">SYNAGOGUES</text>
+<text x="20" y="178" class="m">enrollment speaker 1673  ·  trial 1673-143397-0002  ·  <tspan fill="#1a6b2c" font-weight="600">accept (0.32)</tspan></text>
+<rect x="18.0" y="189" width="37.7" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.090"/>
+<text x="20.0" y="204" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">SUCH</text>
+<rect x="60.1" y="189" width="54.6" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.297"/>
+<text x="62.1" y="204" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">CRIMES</text>
+<rect x="119.2" y="189" width="46.1" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.174"/>
+<text x="121.2" y="204" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">WOULD</text>
+<rect x="169.7" y="189" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.116"/>
+<text x="171.7" y="204" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">HAVE</text>
+<rect x="211.9" y="189" width="71.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.217"/>
+<text x="213.9" y="204" class="w" textLength="67.4" lengthAdjust="spacingAndGlyphs">DESERVED</text>
+<rect x="287.8" y="189" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.196"/>
+<text x="289.8" y="204" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="321.5" y="189" width="113.6" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.307"/>
+<text x="323.5" y="204" class="w" textLength="109.6" lengthAdjust="spacingAndGlyphs">ANIMADVERSION</text>
+<rect x="439.5" y="189" width="20.9" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.216"/>
+<text x="441.5" y="204" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">OF</text>
+<rect x="464.8" y="189" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.098"/>
+<text x="466.8" y="204" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="498.5" y="189" width="88.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.218"/>
+<text x="500.5" y="204" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">MAGISTRATE</text>
+<rect x="591.2" y="189" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.184"/>
+<text x="593.2" y="204" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">BUT</text>
+<rect x="625.0" y="189" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.240"/>
+<text x="627.0" y="204" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">IN</text>
+<rect x="650.2" y="189" width="37.7" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.125"/>
+<text x="652.2" y="204" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">THIS</text>
+<rect x="692.4" y="189" width="96.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.473"/>
+<text x="694.4" y="204" class="w" textLength="92.7" lengthAdjust="spacingAndGlyphs">PROMISCUOUS</text>
+<rect x="793.6" y="189" width="63.0" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.390"/>
+<text x="795.6" y="204" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">OUTRAGE</text>
+<rect x="861.0" y="189" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.294"/>
+<text x="863.0" y="204" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="18.0" y="215" width="71.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.258"/>
+<text x="20.0" y="230" class="w" textLength="67.4" lengthAdjust="spacingAndGlyphs">INNOCENT</text>
+<rect x="93.9" y="215" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.065"/>
+<text x="95.9" y="230" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">WERE</text>
+<rect x="136.0" y="215" width="88.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.089"/>
+<text x="138.0" y="230" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">CONFOUNDED</text>
+<rect x="228.8" y="215" width="37.7" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.023"/>
+<text x="230.8" y="230" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">WITH</text>
+<rect x="270.9" y="215" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.048"/>
+<text x="272.9" y="230" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="304.6" y="215" width="54.6" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.043"/>
+<text x="306.6" y="230" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">GUILTY</text>
+<rect x="363.6" y="215" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.039"/>
+<text x="365.6" y="230" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">AND</text>
+<rect x="397.4" y="215" width="88.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.850"/>
+<text x="399.4" y="230" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">ALEXANDRIA</text>
+<rect x="490.1" y="215" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.062"/>
+<text x="492.1" y="230" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">WAS</text>
+<rect x="523.8" y="215" width="105.2" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.190"/>
+<text x="525.8" y="230" class="w" textLength="101.2" lengthAdjust="spacingAndGlyphs">IMPOVERISHED</text>
+<rect x="633.4" y="215" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.212"/>
+<text x="635.4" y="230" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">BY</text>
+<rect x="658.7" y="215" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.179"/>
+<text x="660.7" y="230" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="692.4" y="215" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.304"/>
+<text x="694.4" y="230" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">LOSS</text>
+<rect x="734.6" y="215" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.030"/>
+<text x="736.6" y="230" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">OF</text>
+<rect x="759.8" y="215" width="12.4" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.037"/>
+<text x="761.8" y="230" class="w" textLength="8.4" lengthAdjust="spacingAndGlyphs">A</text>
+<rect x="776.7" y="215" width="63.0" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.151"/>
+<text x="778.7" y="230" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">WEALTHY</text>
+<rect x="844.1" y="215" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.250"/>
+<text x="846.1" y="230" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">AND</text>
+<rect x="18.0" y="241" width="96.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.078"/>
+<text x="20.0" y="256" class="w" textLength="92.7" lengthAdjust="spacingAndGlyphs">INDUSTRIOUS</text>
+<rect x="119.2" y="241" width="54.6" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.192"/>
+<text x="121.2" y="256" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">COLONY</text>
+<text x="20" y="294" class="m">enrollment speaker 652  ·  trial 652-130726-0002  ·  <tspan fill="#1a6b2c" font-weight="600">accept (0.32)</tspan></text>
+<rect x="18.0" y="305" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.059"/>
+<text x="20.0" y="320" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">ONE</text>
+<rect x="51.7" y="305" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.084"/>
+<text x="53.7" y="320" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">OF</text>
+<rect x="77.0" y="305" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.074"/>
+<text x="79.0" y="320" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">HIS</text>
+<rect x="110.7" y="305" width="63.0" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.277"/>
+<text x="112.7" y="320" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">WAITERS</text>
+<rect x="178.2" y="305" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.305"/>
+<text x="180.2" y="320" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">PHIL</text>
+<rect x="220.3" y="305" width="46.1" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.031"/>
+<text x="222.3" y="320" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">TYSON</text>
+<rect x="270.9" y="305" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.086"/>
+<text x="272.9" y="320" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">WAS</text>
+<rect x="304.6" y="305" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.066"/>
+<text x="306.6" y="320" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">ONE</text>
+<rect x="338.3" y="305" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.079"/>
+<text x="340.3" y="320" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">OF</text>
+<rect x="363.6" y="305" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.122"/>
+<text x="365.6" y="320" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="397.4" y="305" width="63.0" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.095"/>
+<text x="399.4" y="320" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">EARLIER</text>
+<rect x="464.8" y="305" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.120"/>
+<text x="466.8" y="320" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">ONES</text>
+<rect x="506.9" y="305" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.133"/>
+<text x="508.9" y="320" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">TO</text>
+<rect x="532.2" y="305" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.125"/>
+<text x="534.2" y="320" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">GO</text>
+<rect x="557.5" y="305" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.131"/>
+<text x="559.5" y="320" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">BACK</text>
+<rect x="599.7" y="305" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.122"/>
+<text x="601.7" y="320" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">INTO</text>
+<rect x="641.8" y="305" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.011"/>
+<text x="643.8" y="320" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="675.5" y="305" width="54.6" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.231"/>
+<text x="677.5" y="320" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">BURNED</text>
+<rect x="734.5" y="305" width="71.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.027"/>
+<text x="736.5" y="320" class="w" textLength="67.4" lengthAdjust="spacingAndGlyphs">DISTRICT</text>
+<rect x="810.4" y="305" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.095"/>
+<text x="812.4" y="320" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">TO</text>
+<rect x="835.7" y="305" width="46.1" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.025"/>
+<text x="837.7" y="320" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">BEGIN</text>
+<rect x="18.0" y="331" width="71.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.129"/>
+<text x="20.0" y="346" class="w" textLength="67.4" lengthAdjust="spacingAndGlyphs">BUSINESS</text>
+<rect x="93.9" y="331" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.005"/>
+<text x="95.9" y="346" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">AND</text>
+<rect x="127.6" y="331" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.079"/>
+<text x="129.6" y="346" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">HE</text>
+<rect x="152.9" y="331" width="54.6" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.027"/>
+<text x="154.9" y="346" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">OPENED</text>
+<rect x="211.9" y="331" width="12.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.005"/>
+<text x="213.9" y="346" class="w" textLength="8.4" lengthAdjust="spacingAndGlyphs">A</text>
+<rect x="228.8" y="331" width="88.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.850"/>
+<text x="230.8" y="346" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">RESTAURANT</text>
+<rect x="321.5" y="331" width="54.6" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.057"/>
+<text x="323.5" y="346" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">CALLED</text>
+<rect x="380.5" y="331" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.111"/>
+<text x="382.5" y="346" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="414.2" y="331" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.537"/>
+<text x="416.2" y="346" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">DEL</text>
+<rect x="447.9" y="331" width="46.1" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.127"/>
+<text x="449.9" y="346" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">MONTE</text>
+<rect x="498.5" y="331" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.086"/>
+<text x="500.5" y="346" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">IN</text>
+<rect x="523.8" y="331" width="54.6" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.114"/>
+<text x="525.8" y="346" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">POWELL</text>
+<rect x="582.8" y="331" width="54.6" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.118"/>
+<text x="584.8" y="346" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">STREET</text>
+<rect x="641.8" y="331" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.112"/>
+<text x="643.8" y="346" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">NEAR</text>
+<rect x="684.0" y="331" width="54.6" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.125"/>
+<text x="686.0" y="346" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">MARKET</text>
+<rect x="743.0" y="331" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.117"/>
+<text x="745.0" y="346" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">BUT</text>
+<rect x="776.7" y="331" width="20.9" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.124"/>
+<text x="778.7" y="346" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">IT</text>
+<rect x="802.0" y="331" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.031"/>
+<text x="804.0" y="346" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">WAS</text>
+<rect x="835.7" y="331" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.062"/>
+<text x="837.7" y="346" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">TOO</text>
+<rect x="18.0" y="357" width="46.1" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.041"/>
+<text x="20.0" y="372" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">EARLY</text>
+<rect x="68.6" y="357" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.053"/>
+<text x="70.6" y="372" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">FOR</text>
+<rect x="102.3" y="357" width="63.0" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.112"/>
+<text x="104.3" y="372" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">SUCCESS</text>
+<rect x="169.7" y="357" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.009"/>
+<text x="171.7" y="372" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">AND</text>
+<rect x="203.5" y="357" width="54.6" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.007"/>
+<text x="205.5" y="372" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">CLOSED</text>
+<rect x="262.5" y="357" width="46.1" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.115"/>
+<text x="264.5" y="372" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">AFTER</text>
+<rect x="313.1" y="357" width="12.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.056"/>
+<text x="315.1" y="372" class="w" textLength="8.4" lengthAdjust="spacingAndGlyphs">A</text>
+<rect x="329.9" y="357" width="46.1" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.020"/>
+<text x="331.9" y="372" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">SHORT</text>
+<rect x="380.5" y="357" width="54.6" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.111"/>
+<text x="382.5" y="372" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">CAREER</text>
+<text x="20" y="410" class="m">enrollment speaker 652  ·  trial 652-130726-0003  ·  <tspan fill="#9b1c1c" font-weight="600">reject (-0.05)</tspan></text>
+<rect x="18.0" y="421" width="37.7" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.051"/>
+<text x="20.0" y="436" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">HERE</text>
+<rect x="60.1" y="421" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.093"/>
+<text x="62.1" y="436" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">AS</text>
+<rect x="85.4" y="421" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.151"/>
+<text x="87.4" y="436" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">WELL</text>
+<rect x="127.6" y="421" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.038"/>
+<text x="129.6" y="436" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">AS</text>
+<rect x="152.9" y="421" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.168"/>
+<text x="154.9" y="436" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">IN</text>
+<rect x="178.2" y="421" width="12.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.173"/>
+<text x="180.2" y="436" class="w" textLength="8.4" lengthAdjust="spacingAndGlyphs">A</text>
+<rect x="195.0" y="421" width="54.6" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.323"/>
+<text x="197.0" y="436" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">NUMBER</text>
+<rect x="254.0" y="421" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.123"/>
+<text x="256.0" y="436" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">OF</text>
+<rect x="279.3" y="421" width="46.1" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.195"/>
+<text x="281.3" y="436" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">OTHER</text>
+<rect x="329.9" y="421" width="54.6" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.296"/>
+<text x="331.9" y="436" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">PLACES</text>
+<rect x="388.9" y="421" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.074"/>
+<text x="390.9" y="436" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">ONE</text>
+<rect x="422.6" y="421" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.216"/>
+<text x="424.6" y="436" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">CAN</text>
+<rect x="456.4" y="421" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.157"/>
+<text x="458.4" y="436" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">WELL</text>
+<rect x="498.5" y="421" width="88.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.019"/>
+<text x="500.5" y="436" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">APPRECIATE</text>
+<rect x="591.2" y="421" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.114"/>
+<text x="593.2" y="436" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="625.0" y="421" width="88.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.169"/>
+<text x="627.0" y="436" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">COLLOQUIAL</text>
+<rect x="717.7" y="421" width="88.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.473"/>
+<text x="719.7" y="436" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">DEFINITION</text>
+<rect x="810.4" y="421" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.465"/>
+<text x="812.4" y="436" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">OF</text>
+<rect x="835.7" y="421" width="63.0" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.850"/>
+<text x="837.7" y="436" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">CABARET</text>
+<text x="20" y="474" class="m">enrollment speaker 7976  ·  trial 7976-110124-0000  ·  <tspan fill="#9b1c1c" font-weight="600">reject (0.09)</tspan></text>
+<rect x="18.0" y="485" width="37.7" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.587"/>
+<text x="20.0" y="500" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">LONG</text>
+<rect x="60.1" y="485" width="29.3" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.467"/>
+<text x="62.1" y="500" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">AGO</text>
+<rect x="93.9" y="485" width="46.1" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.363"/>
+<text x="95.9" y="500" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">THERE</text>
+<rect x="144.4" y="485" width="46.1" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.071"/>
+<text x="146.4" y="500" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">LIVED</text>
+<rect x="195.0" y="485" width="12.4" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.344"/>
+<text x="197.0" y="500" class="w" textLength="8.4" lengthAdjust="spacingAndGlyphs">A</text>
+<rect x="211.9" y="485" width="71.4" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.850"/>
+<text x="213.9" y="500" class="w" textLength="67.4" lengthAdjust="spacingAndGlyphs">MERCHANT</text>
+<rect x="287.8" y="485" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.346"/>
+<text x="289.8" y="500" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">WHO</text>
+<rect x="321.5" y="485" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.761"/>
+<text x="323.5" y="500" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">HAD</text>
+<rect x="355.2" y="485" width="46.1" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.097"/>
+<text x="357.2" y="500" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">THREE</text>
+<rect x="405.8" y="485" width="79.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.626"/>
+<text x="407.8" y="500" class="w" textLength="75.9" lengthAdjust="spacingAndGlyphs">DAUGHTERS</text>
+<text x="20" y="538" class="m">enrollment speaker 7976  ·  trial 7976-110124-0003  ·  <tspan fill="#9b1c1c" font-weight="600">reject (0.19)</tspan></text>
+<rect x="18.0" y="549" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.218"/>
+<text x="20.0" y="564" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">WHEN</text>
+<rect x="60.1" y="549" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.111"/>
+<text x="62.1" y="564" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">IT</text>
+<rect x="85.4" y="549" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.100"/>
+<text x="87.4" y="564" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">WAS</text>
+<rect x="119.2" y="549" width="63.0" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.217"/>
+<text x="121.2" y="564" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">EVENING</text>
+<rect x="186.6" y="549" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.339"/>
+<text x="188.6" y="564" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">HE</text>
+<rect x="211.9" y="549" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.190"/>
+<text x="213.9" y="564" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">LED</text>
+<rect x="245.6" y="549" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.208"/>
+<text x="247.6" y="564" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">HIS</text>
+<rect x="279.3" y="549" width="37.7" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.850"/>
+<text x="281.3" y="564" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">BAND</text>
+<rect x="321.5" y="549" width="37.7" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.170"/>
+<text x="323.5" y="564" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">INTO</text>
+<rect x="363.6" y="549" width="12.4" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.187"/>
+<text x="365.6" y="564" class="w" textLength="8.4" lengthAdjust="spacingAndGlyphs">A</text>
+<rect x="380.5" y="549" width="54.6" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.083"/>
+<text x="382.5" y="564" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">NEARBY</text>
+<rect x="439.5" y="549" width="54.6" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.271"/>
+<text x="441.5" y="564" class="w" textLength="50.6" lengthAdjust="spacingAndGlyphs">STREET</text>
+<rect x="498.5" y="549" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.182"/>
+<text x="500.5" y="564" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">AND</text>
+<rect x="532.2" y="549" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.199"/>
+<text x="534.2" y="564" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">IN</text>
+<rect x="557.5" y="549" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.099"/>
+<text x="559.5" y="564" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">HIS</text>
+<rect x="591.2" y="549" width="71.4" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.349"/>
+<text x="593.2" y="564" class="w" textLength="67.4" lengthAdjust="spacingAndGlyphs">DISGUISE</text>
+<rect x="667.1" y="549" width="88.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.135"/>
+<text x="669.1" y="564" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">APPROACHED</text>
+<rect x="759.8" y="549" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.262"/>
+<text x="761.8" y="564" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="793.6" y="549" width="88.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.271"/>
+<text x="795.6" y="564" class="w" textLength="84.3" lengthAdjust="spacingAndGlyphs">MERCHANT'S</text>
+<rect x="18.0" y="575" width="46.1" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.425"/>
+<text x="20.0" y="590" class="w" textLength="42.1" lengthAdjust="spacingAndGlyphs">HOUSE</text>
+<rect x="68.6" y="575" width="20.9" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.216"/>
+<text x="70.6" y="590" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">HE</text>
+<rect x="93.9" y="575" width="63.0" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.208"/>
+<text x="95.9" y="590" class="w" textLength="59.0" lengthAdjust="spacingAndGlyphs">KNOCKED</text>
+<rect x="161.3" y="575" width="20.9" height="20" rx="3" fill="rgb(38,160,65)" fill-opacity="0.043"/>
+<text x="163.3" y="590" class="w" textLength="16.9" lengthAdjust="spacingAndGlyphs">AT</text>
+<rect x="186.6" y="575" width="29.3" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.028"/>
+<text x="188.6" y="590" class="w" textLength="25.3" lengthAdjust="spacingAndGlyphs">THE</text>
+<rect x="220.3" y="575" width="37.7" height="20" rx="3" fill="rgb(218,55,50)" fill-opacity="0.217"/>
+<text x="222.3" y="590" class="w" textLength="33.7" lengthAdjust="spacingAndGlyphs">DOOR</text>
+</svg>
